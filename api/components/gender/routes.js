@@ -14,24 +14,24 @@ function genderRoutes(app, store) {
     app.use('/api/gender', router);
 
     router.post('/',
-        passport.authenticate('jwt', { session: false }),
-        scopesValidationHandler(['create:genders']),
+        // passport.authenticate('jwt', { session: false }),
+        // scopesValidationHandler(['create:genders']),
         GenderService.createGender);
     router.put('/:genderId',
-        passport.authenticate('jwt', { session: false }),
-        scopesValidationHandler(['update:genders']),
+        // passport.authenticate('jwt', { session: false }),
+        // scopesValidationHandler(['update:genders']),
         GenderService.updateGender);
     router.delete('/:genderId',
-        passport.authenticate('jwt', { session: false }),
-        scopesValidationHandler(['delete:genders']),
+        // passport.authenticate('jwt', { session: false }),
+        // scopesValidationHandler(['delete:genders']),
         GenderService.deleteGender);
     router.get('/',
-        passport.authenticate('jwt', { session: false }),
-        scopesValidationHandler(['read:genders']),
+        // passport.authenticate('jwt', { session: false }),
+        // scopesValidationHandler(['read:genders']),
         GenderService.getGender);
     router.get('/:genderId',
-        passport.authenticate('jwt', { session: false }),
-        scopesValidationHandler(['read:genders']),
+        // passport.authenticate('jwt', { session: false }),
+        // scopesValidationHandler(['read:genders']),
         GenderService.getGender);
 }
 

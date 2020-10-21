@@ -1,0 +1,97 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Rokker Music App Backend with Node JS and Express Js ",
+    "version": "1.0.0",
+    "title": "Rokker Music App Backend"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "tags": [
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/album": {
+      "get": {
+        "tags": [
+          "album"
+        ],
+        "summary": "Return all Albums from Album Collections",
+        "operationId": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/album/:albumId": {
+      "get": {
+        "tags": [
+          "album"
+        ],
+        "summary": "Return an Specific Album from Collection",
+        "operationId": "albumId",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/album": {
+      "post": {
+        "tags": [
+          "album"
+        ],
+        "summary": "Create Album",
+        "operationId": "albumId",
+        "body": "body info",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "petstore_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:pets": "modify pets in your account",
+        "read:pets": "read your pets"
+      }
+    },
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      }
+    },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}

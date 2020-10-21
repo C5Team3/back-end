@@ -10,18 +10,22 @@ const {
   errorHandler,
 } = require('../utils/middleware/errorsHandler');
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDoc = require('./swagger.json');
 
 //Routes Call
 const userRoutes = require('./components/user/routes');
 const artistRoutes = require('./components/artist/routes');
 const genderRoutes = require('./components/gender/routes');
 const albumRoutes = require('./components/album/routes');
+const trackRoutes = require('./components/track/routes');
 
 //Models
 const User = require('../models/users');
 const Artist = require('../models/artists');
 const Gender = require('../models/gender');
 const Album = require('../models/albums');
+const Track = require('../models/tracks');
 
 
 const app = express();
@@ -33,6 +37,8 @@ app.use(helmet());
 
 app.get('/api', (req, res) => { res.send('Hello World') });
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+
 //Connect Database
 db.connect();
 
@@ -41,6 +47,7 @@ userRoutes(app, User);
 artistRoutes(app, Artist);
 genderRoutes(app, Gender);
 albumRoutes(app, Album);
+trackRoutes(app, Track);
 
 app.use(logErrors);
 app.use(errorHandler);
