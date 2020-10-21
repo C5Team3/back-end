@@ -14,8 +14,8 @@ function artistRoutes(app, store) {
     app.use('/api/artist', router);
 
     router.post('/',
-        passport.authenticate('jwt', { session: false }),
-        scopesValidationHandler(['create:artists']),
+        // passport.authenticate('jwt', { session: false }),
+        // scopesValidationHandler(['create:artists']),
         ArtistService.createArtist);
     router.put('/:artistId',
         passport.authenticate('jwt', { session: false }),
@@ -26,12 +26,12 @@ function artistRoutes(app, store) {
         scopesValidationHandler(['delete:artists']),
         ArtistService.deleteArtist);
     router.get('/',
-        passport.authenticate('jwt', { session: false }),
-        scopesValidationHandler(['read:artists']),
+        // passport.authenticate('jwt', { session: false }),
+        // scopesValidationHandler(['read:artists']),
         ArtistService.getArtists);
     router.get('/:artistId',
-        passport.authenticate('jwt', { session: false }),
-        scopesValidationHandler(['read:artists']),
+        // passport.authenticate('jwt', { session: false }),
+        // scopesValidationHandler(['read:artists']),
         ArtistService.getArtist);
 }
 

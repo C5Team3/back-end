@@ -1,4 +1,4 @@
-const { Schema, model, models } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const artistSchema = new Schema({
     name: { type: String, required: [true, 'Artist Name is required'], trim: true },

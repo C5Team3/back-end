@@ -19,7 +19,7 @@ function artistService(injectedStore) {
         try {
             const artist = await Controller.getArtist(params.artistId);
             if (artist) {
-                response.success(req, res, user, 200);
+                response.success(req, res, artist, 200);
             } else {
                 response.error(req, res, [{
                     "msg": "Artist not found",
