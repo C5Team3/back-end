@@ -13,23 +13,23 @@ function userRoutes(app, store) {
     const UserService = userService(store);
     app.use('/api/user', router);
 
-    router.post('/', 
-        passport.authenticate('jwt', { session: false }), 
+    router.post('/',
+        passport.authenticate('jwt', { session: false }),
         scopesValidationHandler(['create:users']),
         UserService.createUser);
-    router.put('/:userId', 
-        passport.authenticate('jwt', { session: false }), 
+    router.put('/:userId',
+        passport.authenticate('jwt', { session: false }),
         scopesValidationHandler(['update:users']),
         UserService.updateUser);
-    router.delete('/:userId', 
-        passport.authenticate('jwt', { session: false }), 
+    router.delete('/:userId',
+        passport.authenticate('jwt', { session: false }),
         scopesValidationHandler(['delete:users']),
         UserService.deleteUser);
-    router.get('/', 
+    router.get('/',
         passport.authenticate('jwt', { session: false }),
         scopesValidationHandler(['read:users']),
         UserService.getUsers);
-    router.get('/:userId', 
+    router.get('/:userId',
         passport.authenticate('jwt', { session: false }),
         scopesValidationHandler(['read:users']),
         UserService.getUser);

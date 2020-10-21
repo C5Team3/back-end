@@ -6,11 +6,12 @@ const config = require('../config/index');
 const db = require('../lib/db');
 
 //Routes Call
-
-
+const userRoutes = require('./components/user/routes');
+const artistRoutes = require('./components/artist/routes');
 
 //Models
-
+const User = require('../models/users');
+const Artist = require('../models/artists');
 
 
 const app = express();
@@ -26,6 +27,9 @@ app.get('/api', (req, res) => { res.send('Hello World') });
 db.connect();
 
 //Routes
+userRoutes(User);
+artistRoutes(Artist);
+
 
 //Server
 app.listen(config.port, () => {
