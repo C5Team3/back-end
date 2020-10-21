@@ -6,7 +6,7 @@ const artistSchema = new Schema({
     about: { type: String, max: 500 },
     avatarPath: { type: String },
     followers: { type: Number, min: 0, default: 0 },
-    listeners: { type: Number, min: 0, default: 0 },
+    listenersCounter: { type: Number, min: 0, default: 0 },
     songs: { type: Number, min: 0, default: 0 }
 }, { timestamps: true });
 

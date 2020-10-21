@@ -8,10 +8,12 @@ const db = require('../lib/db');
 //Routes Call
 const userRoutes = require('./components/user/routes');
 const artistRoutes = require('./components/artist/routes');
+const genderRoutes = require('./components/gender/routes');
 
 //Models
 const User = require('../models/users');
 const Artist = require('../models/artists');
+const Gender = require('../models/gender');
 
 
 const app = express();
@@ -27,8 +29,9 @@ app.get('/api', (req, res) => { res.send('Hello World') });
 db.connect();
 
 //Routes
-userRoutes(User);
-artistRoutes(Artist);
+userRoutes(app, User);
+artistRoutes(app, Artist);
+genderRoutes(app, Gender);
 
 
 //Server
