@@ -46,11 +46,16 @@ function userService(injectedStore) {
         const { body: data } = req;
         try {
             const updatedUser = await Controller.updateUser(params.userId, data);
-            if (!updatedUser) response.error(req, res, [{
-                "msg": "User not found",
-                "param": "USER_NOT_FOUND"
-            }], 400);
+            if (!updatedUser){
+              response.error(req, res, [{
+                  "msg": "User not found",
+                  "param": "USER_NOT_FOUND"
+              }], 400);
+           }else{
             response.success(req, res, updatedUser, 200);
+           }
+            
+              
         } catch (error) {
             next(error);
         }

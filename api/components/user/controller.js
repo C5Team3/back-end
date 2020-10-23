@@ -8,17 +8,18 @@ module.exports = function(injectedStore){
     }
     
     async function updateUser(userId, data) {
-        const updated = await store.findOneAndUpdate({ userId }, data, {
-            new: true,
-            runValidators: true
+        const updated = await store.findOneAndUpdate({ _id:userId }, data,{
+          new:true,
+          runValidators:true
         });
         return updated || false;
     }
 
     async function deleteUser(userId) {
-        await store.findOneAndUpdate({ userId }, { deleted_at: new Date() });
-        const getDeleted = await this.getUser(_id);
-        return getDeleted;
+      const getDeletedUser= await store.findOneAndRemove({_id:userId},{
+        select:'_id'
+      });
+      return getDeletedUser;
     }
 
     async function getUsers(){

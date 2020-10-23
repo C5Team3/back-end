@@ -1,6 +1,5 @@
 const { Schema, model } = require('mongoose');
 
-// TODO VERIFICAR CAMPOS REQUERIDOS
 const albumsSchema = new Schema({
   title: { type: String, required: [true, 'Album Title is required'], trim: true },
   subtile: { type: String, required: false },

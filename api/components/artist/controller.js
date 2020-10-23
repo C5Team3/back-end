@@ -16,8 +16,8 @@ module.exports = function(injectedStore){
     }
 
     async function deleteArtist(artistId) {
-        await store.findOneAndUpdate({ artistId }, { deleted_at: new Date() });
-        const getDeleted = await this.getArtist(_id);
+        await store.findOneAndUpdate({ _id:artistId }, { deleted_at: new Date() });
+        const getDeleted = await this.getArtist(artistId);
         return getDeleted;
     }
 
