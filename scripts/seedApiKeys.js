@@ -9,6 +9,7 @@ const apiKey = require('../models/apiKey');
 const apiKeyController = require('../api/components/apiKey/controller');
 const ApiKeyController = apiKeyController(apiKey);
 
+
 const adminScopes = [
   
   'sign_in:auth',
@@ -25,7 +26,7 @@ const adminScopes = [
   'update:artist',
   'delete:artist',
 
-  'read:gender',
+  'read:gender',              
   'create:gender',
   'update:gender',
   'delete:gender',

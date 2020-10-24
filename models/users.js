@@ -8,7 +8,7 @@ const usersSchema = new Schema({
   age:{type: Number, min: 0, default: 0},
   gender:{type: String, required: true, lowercase: true, trim: true },
   email: { type: String, unique: true, required: true, lowercase: true, trim: true },
-  password: { type: String, required: true, trim: true },
+  password: { type: String, required: true},
   isAdmin: { type: Boolean, default:false },
   isActive: { type: Boolean, default:false },
   avatarPath: { type: String },
@@ -20,7 +20,7 @@ usersSchema.pre('save', async function(next) {
   this.password = hash;
   next();
 });
-
+// Remove Password Before Send
 usersSchema.methods.toJSON = function() {
   var obj = this.toObject();
   delete obj.password;

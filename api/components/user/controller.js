@@ -1,7 +1,9 @@
 module.exports = function(injectedStore){
-    let store = injectedStore;
+    
+  let store = injectedStore;
+    const bcrypt = require('bcrypt');
 
-    async function createUser(data) {
+    async function createUser(data) {   
         const created = new store(data);
         await created.save();
         return created;
@@ -27,8 +29,8 @@ module.exports = function(injectedStore){
         return users || [];
     }
 
-    async function getUser(userId) {
-        const user = await store.findOne({ _id: userId });
+    async function getUser({query}) {
+        const user = await store.findOne(query);
         return user || false;
     }
 
