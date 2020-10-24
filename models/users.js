@@ -5,11 +5,12 @@ const usersSchema = new Schema({
   name: { type: String, required: [true, 'User name is required'], trim: true },
   lastname: { type: String, required: [true, 'User Lastname is required'], trim: true },
   country: { type: String, uppercase: true, trim: true },
+  age:{type: Number, min: 0, default: 0},
+  gender:{type: String, required: true, lowercase: true, trim: true },
   email: { type: String, unique: true, required: true, lowercase: true, trim: true },
   password: { type: String, required: true, trim: true },
-  isAdmin: { type: Boolean },
-  apiKeyToken: { type: String },
-  isActive: { type: Boolean },
+  isAdmin: { type: Boolean, default:false },
+  isActive: { type: Boolean, default:false },
   avatarPath: { type: String },
 }, {timestamps: true});
 

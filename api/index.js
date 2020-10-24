@@ -1,6 +1,9 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+// TODO: VERIFY DEBUG CONSOLE
+const debug = require('debug') 
+const chalk = require('chalk');
 
 const config = require('../config/index');
 const db = require('../lib/db');
@@ -20,12 +23,15 @@ const genderRoutes = require('./components/gender/routes');
 const albumRoutes = require('./components/album/routes');
 const trackRoutes = require('./components/track/routes');
 
+
+
 //Models
 const User = require('../models/users');
 const Artist = require('../models/artists');
 const Gender = require('../models/gender');
 const Album = require('../models/albums');
 const Track = require('../models/tracks');
+
 
 
 const app = express();
@@ -55,5 +61,5 @@ app.use(errorHandler);
 
 //Server
 app.listen(config.port, () => {
-    console.log(`Server listening at http://localhost:${config.port}`);
+    debug(chalk.red(`Server listening at http://localhost:${config.port}`));
 })
