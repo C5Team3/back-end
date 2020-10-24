@@ -8,7 +8,7 @@ module.exports = function(injectedStore){
     }
     
     async function updateGender(genderId, data) {
-        const updated = await store.findOneAndUpdate({ genderId }, data, {
+        const updated = await store.findOneAndUpdate({ _id: genderId }, data, {
             new: true,
             runValidators: true
         });
@@ -16,13 +16,14 @@ module.exports = function(injectedStore){
     }
 
     async function deleteGender(genderId) {
-        await store.findOneAndUpdate({ genderId }, { deleted_at: new Date() });
-        const getDeleted = await this.getGender(_id);
-        return getDeleted;
+        const deletedGender = await store.findOneAndRemove({ _id: genderId }, { 
+            select: _id 
+        });
+        return deletedGender;
     }
 
     async function getGenders(){
-        const Genders = await store.find( { deleted_at: null });
+        const Genders = await store.find();
         return Genders || [];
     }
 

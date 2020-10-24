@@ -8,7 +8,7 @@ module.exports = function(injectedStore){
     }
     
     async function updateArtist(artistId, data) {
-        const updated = await store.findOneAndUpdate({ artistId }, data, {
+        const updated = await store.findOneAndUpdate({ _id: artistId }, data, {
             new: true,
             runValidators: true
         });
@@ -16,13 +16,14 @@ module.exports = function(injectedStore){
     }
 
     async function deleteArtist(artistId) {
-        await store.findOneAndUpdate({ artistId }, { deleted_at: new Date() });
-        const getDeleted = await this.getArtist(_id);
-        return getDeleted;
+        const deletedArtist = await store.findOneAndRemove({ _id: artistId },{
+            select:'_id'
+        });
+        return deletedArtist;
     }
 
     async function getArtists(){
-        const artists = await store.find( { deleted_at: null });
+        const artists = await store.find();
         return artists || [];
     }
 

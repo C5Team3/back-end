@@ -44,6 +44,8 @@ function artistService(injectedStore) {
     const updateArtist = async (req, res, next) => {
         const { params } = req;
         const { body: data } = req;
+        console.log(params);
+        console.log(data);
         try {
             const updatedArtist = await Controller.updateArtist(params.artistId, data);
             if (!updatedArtist) response.error(req, res, [{
