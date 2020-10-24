@@ -1,6 +1,6 @@
 const response = require('../../../utils/response');
 const controller = require('./controller');
-
+const boom = require('boom');
 function artistService(injectedStore) {
     let store = injectedStore;
     const Controller = controller(store);
@@ -37,7 +37,7 @@ function artistService(injectedStore) {
             const createdArtist = await Controller.createArtist(data);
             response.success(req, res, createdArtist, 201);
         } catch (error) {
-            next(error);
+          next(boom.boomify(error, { statusCode: 400 }));      
         }
     };
 

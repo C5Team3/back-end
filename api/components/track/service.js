@@ -1,6 +1,6 @@
 const response = require('../../../utils/response');
 const controller = require('./controller');
-
+const boom = require('boom');
 
 function trackService(injectedStore) {
     let store = injectedStore;
@@ -38,7 +38,7 @@ function trackService(injectedStore) {
             const createdTrack = await Controller.createTrack(data);
             response.success(req, res, createdTrack, 201);
         } catch (error) {
-            next(error);
+          next(boom.boomify(error, { statusCode: 400 }));      
         }
     };
 
@@ -81,7 +81,7 @@ function trackService(injectedStore) {
             const track = await Controller.getOrCreatetrack(trackData);
             return track || false;
         } catch (error) {
-            next(error);
+            next(boom.boomify(error, { statusCode: 400 }));      
         }
     }
 

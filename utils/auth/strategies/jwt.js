@@ -1,7 +1,7 @@
 const passport = require('passport');
 const { Strategy, ExtractJwt } = require('passport-jwt');
 const config = require('../../../config/index');
-const userService = require('../../../api/components/user/service');
+const userService = require('../../../api/components/user/controller');
 const userModel = require('../../../models/users');
 
 const UserService = userService(userModel);

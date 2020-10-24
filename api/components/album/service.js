@@ -1,5 +1,6 @@
 const response = require('../../../utils/response');
 const controller = require('./controller');
+const boom = require('boom');
 
 
 function albumService(injectedStore) {
@@ -38,7 +39,7 @@ function albumService(injectedStore) {
             const createdAlbum = await Controller.createAlbum(data);
             response.success(req, res, createdAlbum, 201);
         } catch (error) {
-            next(error);
+          next(boom.boomify(error, { statusCode: 400 }));      
         }
     };
 

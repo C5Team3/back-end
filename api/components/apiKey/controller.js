@@ -18,6 +18,10 @@ module.exports = function(injectedStore){
       const ApiKeys = await store.find();
       return ApiKeys || [];
   }
+  async function getApiKey(apiKeyQuery){
+      const ApiKeys = await store.findOne(apiKeyQuery);
+      return ApiKeys || [];
+  }
   async function emptyApiKeys(){
       await store.deleteMany();
       const ApiKeys = await store.find();
@@ -28,6 +32,7 @@ module.exports = function(injectedStore){
       createApiKey,
       deleteApiKey,
       getApiKeys,
+      getApiKey,
       emptyApiKeys
   }
 }

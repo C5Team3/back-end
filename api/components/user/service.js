@@ -1,5 +1,7 @@
 const response = require('../../../utils/response');
 const controller = require('./controller');
+const debug = require('debug')('app:user:service');
+const boom = require('boom');
 
 function userService(injectedStore) {
     let store = injectedStore;
@@ -17,7 +19,7 @@ function userService(injectedStore) {
     const getUser = async (req, res, next) => {
         const { params } = req;
         try {
-            const user = await Controller.getUser(params.userId);
+            const user = await Controller.getUser({_id:params.userId});
             if (user) {
                 response.success(req, res, user, 200);
             } else {
@@ -35,9 +37,20 @@ function userService(injectedStore) {
         const { body: data } = req;
         try {
             const createdUser = await Controller.createUser(data);
-            response.success(req, res, createdUser, 201);
+              if(createUser){
+                response.success(req, res, createdUser, 201);
+              }
+              else{
+                response.error(req, res, [{
+                  "msg": "Fail to Create and User",
+                  "param": "USER_NOT_FOUND"
+              }], 400);
+            }
         } catch (error) {
-            next(error);
+          if(error.code === 11000){
+            return next(boom.unauthorized('Email Already Exist'));
+          }
+          next(boom.boomify(error, { statusCode: 400 }));      
         }
     };
 
@@ -65,11 +78,17 @@ function userService(injectedStore) {
         const { params } = req;
         try {
             const deletedUser = await Controller.deleteUser(params.userId);
-            if (!deletedUser) response.error(req, res, [{
-                "msg": "User not found",
-                "param": "USER_NOT_FOUND"
-            }], 400);
-            response.success(req, res, deletedUser, 201);
+            if (!deletedUser) {
+              response.error(req, res, [{
+                  "msg": "User not found",
+                  "param": "USER_NOT_FOUND"
+              }], 400);
+            }
+            else{
+              response.success(req, res, deletedUser, 201);
+            }
+              
+            
         } catch (error) {
             next(error);
         }
@@ -77,7 +96,7 @@ function userService(injectedStore) {
 
     const verifyUser = async (email) => {
         const verifiedUser = await Controller.getUserByEmail(email);
-        return verifiedUser;
+        return verifiedUser || null;
     }
 
     const getOrCreateUser = async (userData) => {
@@ -85,7 +104,7 @@ function userService(injectedStore) {
             const user = await Controller.getOrCreateUser(userData);
             return user || false;
         } catch (error) {
-            console.log(error);
+            debug(error);
         }
     }
 

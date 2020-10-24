@@ -2,7 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 // TODO: VERIFY DEBUG CONSOLE
-const debug = require('debug') 
+const debug = require('debug')('app:api:index') 
 const chalk = require('chalk');
 
 const config = require('../config/index');
@@ -22,6 +22,7 @@ const artistRoutes = require('./components/artist/routes');
 const genderRoutes = require('./components/gender/routes');
 const albumRoutes = require('./components/album/routes');
 const trackRoutes = require('./components/track/routes');
+const authRoutes = require('./components/auth/routes');
 
 
 
@@ -54,6 +55,7 @@ artistRoutes(app, Artist);
 genderRoutes(app, Gender);
 albumRoutes(app, Album);
 trackRoutes(app, Track);
+authRoutes(app, User);
 
 app.use(logErrors);
 app.use(errorHandler);
