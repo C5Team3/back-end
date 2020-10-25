@@ -7,26 +7,26 @@ const userModel = require('../../../models/users');
 const apiKeysModel = require('../../../models/apiKey');
 
 const AuthService = authService(userModel,apiKeysModel);
-
-// Import Middle wares
-// const scopesValidationHandler = require('../../../utils/middleware/scopesValidationHandler'); 
-const objectIdValidationHandler = require('../../../utils/middleware/objectIdValidationHanlder'); 
+const objectIdValidationHandler = require('../../../utils/middleware/objectIdValidationHanlder');
 
 require('../../../utils/auth/strategies/basic');
 
-function authRoutes(app,store){
+function authRoutes(app){
   // const UserService = userService(store);
   app.use('/api/auth',router);
   
   router.post('/sign-in',
     passport.authenticate('basic', { session: false }),
-    AuthService.sign_in   
-  )
-  router.get('/sign-up',
-    // passport.authenticate('jwt', { session: false }),
-  // scopesValidationHandler(['read:albums']),
-    objectIdValidationHandler('albumId'),
-    
-  )
+    AuthService.signIn   
+  );
+  router.post('/sign-up',
+    AuthService.signUp, 
+  );
+  // Basic Activation Account 
+  router.post('/activate',
+    objectIdValidationHandler(),
+    AuthService.activateAccount, 
+  );
+  
 }
 module.exports = authRoutes;

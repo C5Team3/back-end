@@ -29,7 +29,7 @@ module.exports = function(injectedStore){
         return users || [];
     }
 
-    async function getUser({query}) {
+    async function getUser(query) {
         const user = await store.findOne(query);
         return user || false;
     }
