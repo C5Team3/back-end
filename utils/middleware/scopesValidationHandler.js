@@ -12,9 +12,9 @@ function scopesValidationHandler(allowedScopes) {
         const permissions = allowedScopes
             .map(scope => req.user.scopes.includes(scope));
         
-        const hasAcces = !permissions.includes(false);
+        const hasAccess = !permissions.includes(false);
             
-        if (hasAcces) {
+        if (hasAccess) {
             next();
         } else {
             next(response.error(req, res, [{

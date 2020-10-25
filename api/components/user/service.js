@@ -40,12 +40,12 @@ function userService(injectedStore) {
               if(createUser){
                 response.success(req, res, createdUser, 201);
               }
-              else{
-                response.error(req, res, [{
-                  "msg": "Fail to Create and User",
-                  "param": "USER_NOT_FOUND"
-              }], 400);
-            }
+            //   else{
+            //     response.error(req, res, [{
+            //       "msg": "Fail to Create and User",
+            //       "param": "USER_NOT_FOUND"
+            //   }], 400);
+            // }
         } catch (error) {
           if(error.code === 11000){
             return next(boom.unauthorized('Email Already Exist'));
