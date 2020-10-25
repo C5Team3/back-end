@@ -14,7 +14,8 @@ const config = {
     smtp_port: process.env.SMTP_PORT,
     smtp_ssl: process.env.SMTP_SSL_SUPPORT,
     smtp_tls: process.env.SMTP_TLS_SUPPORT,
-    smtp_sender_name: process.env.SMTP_NAME_SENDER
+    smtp_sender_name: process.env.SMTP_NAME_SENDER,
+    app_url_activate:process.env.APP_URL_ACTIVATE
 }
 
 module.exports = config;

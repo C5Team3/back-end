@@ -5,6 +5,7 @@ const tracksSchema = new Schema({
   duration_ms: { type: Number, min: 0, default: 0},
   likes: { type: Number, min: 0, default: 0},
   plays: { type: Number, min: 0, default: 0 },
+  url: { type: String, require:true },
   album_Id:{type: Schema.Types.ObjectId, ref: 'Albums', require:true },
   gender_Id:{type: Schema.Types.ObjectId, ref: 'Genders', require:true },
   artist_Id:{type: Schema.Types.ObjectId, ref: 'Artists', require:true },

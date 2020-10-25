@@ -16,7 +16,7 @@ const adminScopes = [
   'sign_up:auth',
   'sign_provider:auth',
 
-  'read:albums',
+  'read:album',
   'create:album',
   'update:album',
   'delete:album',
@@ -37,6 +37,7 @@ const adminScopes = [
   'delete:track',
 
   'read:user',
+  'read:users',
   'create:user',
   'update:user',
   'delete:user',
@@ -48,11 +49,12 @@ const publicScopes = [
   'sign_in:auth',
   'sign_up:auth',
   'sign_provider:auth',
-  'read:albums',  
+  'read:album',  
   'read:artist',
   'read:gender', 
   'read:track',
   'read:user',
+  'update:user',
 ]
 
 const apiKeys = [

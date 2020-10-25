@@ -1,4 +1,5 @@
 const response = require('../response');
+const boom = require('boom');
 
 function scopesValidationHandler(allowedScopes) {
     return (req, res, next) => {
@@ -17,10 +18,7 @@ function scopesValidationHandler(allowedScopes) {
         if (hasAccess) {
             next();
         } else {
-            next(response.error(req, res, [{
-                "msg": "Insufficient Scopes",
-                "param": "INSUFFICIENT_SCOPES"
-            }], 401));
+            next(boom.unauthorized('Insufficient Scopes'));
         }
     }
 }
