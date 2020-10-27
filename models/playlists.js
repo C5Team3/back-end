@@ -1,4 +1,4 @@
-const { Schema, model, models, Date } = require('mongoose');
+const { Schema, model, models } = require('mongoose');
 
 const playlistTrackSchema = new Schema({
     trackId: { type: Schema.Types.ObjectId, ref: 'Tracks', required: true },

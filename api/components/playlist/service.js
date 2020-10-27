@@ -23,7 +23,7 @@ function playlistService(injectedStore) {
     const getPlaylist = async (req, res, next) => {
         const { params } = req;
         try {
-            const playlist = await Controller.getPLaylist(params.playlistId);
+            const playlist = await Controller.getPlaylist(params.playlistId);
             if (playlist) {
                 response.success(req, res, playlist, 200);
             } else {
@@ -80,13 +80,17 @@ function playlistService(injectedStore) {
         const { playlistId } = req.params;
         const { body: data } = req;
         try {
-            const addedTrack = await Controller.addPlaylistTrack(playlistId, data);
-            if (!addedTrack)
+            const playlistExist = await Controller.getPlaylist(playlistId);
+            if (!playlistExist)
                 response.error(req, res, [{
                     "msg": "Playlist not found",
                     "param": "PLAYLIST_NOT_FOUND"
                 }], 400);
 
+            console.log('data: ', data);
+
+            const addedTrack = await Controller.addPlaylistTrack(playlistId, data.trackId);
+            
             response.success(req, res, addedTrack, 200);
         } catch (error) {
             next(boom.boomify(error, { statusCode: 500 }));
@@ -111,13 +115,13 @@ function playlistService(injectedStore) {
         const UserController = userController(userModel);
         try {
             const user = await UserController.getUser({ _id: userId });
-            if(!user) 
+            if (!user)
                 next(boom.boomify("User not found", { statusCode: 400 }));
-            
+
             const favoritePlaylist = await Controller.createFavPlaylist(user);
-            if (!favoritePlaylist) 
+            if (!favoritePlaylist)
                 next(boom.internal("fav playlist can't be created", { statusCode: 500 }));
-            
+
             return favoritePlaylist;
         } catch (error) {
             next(boom.boomify(error, { statusCode: 500 }));
@@ -128,16 +132,48 @@ function playlistService(injectedStore) {
         const user = req.user;
         try {
             const userFavs = await Controller.getFavorites(user._id);
-            if (userFavs) {
-                response.success(req, res, userFavs, 200);
-            } else {
+            if (!userFavs)
                 response.error(req, res, [{
                     "msg": "Playlist not found",
                     "param": "PLAYLIST_NOT_FOUND"
                 }], 400);
-            }
+            response.success(req, res, userFavs, 200);
         } catch (error) {
-            next(boom.boomify(error, { statusCode: 400 }));
+            next(boom.boomify(error, { statusCode: 500 }));
+        }
+    }
+
+    const subscribe = async (req, res, next) => {
+        const { params } = req;
+        const user = req.user;
+        try {
+            const subscribe = await Controller.subscribe(params.playlistId, user._id);
+            if (!subscribe)
+                response.error(req, res, [{
+                    "msg": "Playlist not found",
+                    "param": "PLAYLIST_NOT_FOUND"
+                }], 400);
+
+            response.success(req, res, subscribe, 200);
+        } catch (error) {
+            next(boom.boomify(error, { statusCode: 500 }));
+        }
+    }
+
+    const unsubscribe = async (req, res, next) => {
+        const { params } = req;
+        const user = req.user;
+        try {
+            const unsubscribe = await Controller.unsubscribe(params.playlistId, user._id);
+            if (!unsubscribe)
+                response.error(req, res, [{
+                    "msg": "Playlist not found",
+                    "param": "PLAYLIST_NOT_FOUND"
+                }], 400);
+
+            response.success(req, res, unsubscribe, 200);
+        } catch (error) {
+            next(boom.boomify(error, { statusCode: 500 }));
         }
     }
 
@@ -146,11 +182,13 @@ function playlistService(injectedStore) {
         updatePlaylist,
         deletePlaylist,
         getPlaylists,
-        getPlaylist, 
-        addPlaylistTrack, 
+        getPlaylist,
+        addPlaylistTrack,
         deletePlaylistTrack,
         createFavPlaylist,
-        getFavorites
+        getFavorites,
+        subscribe,
+        unsubscribe
     }
 }
 

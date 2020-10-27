@@ -1,4 +1,5 @@
 const { Date } = require("mongoose");
+const moment = require('moment');
 
 module.exports = function (injectedStore) {
     let store = injectedStore;
@@ -38,9 +39,10 @@ module.exports = function (injectedStore) {
 
     async function addPlaylistTrack(playlistId, track) {
         const playlist = await store.findOne({ _id: playlistId });
+
         const playlistTrack = {
             trackId: track,
-            addedDate: new Date()
+            addedDate: moment.utc(new Date())
         };
         playlist.tracks.push(playlistTrack);
         const updatedPlaylist = await playlist.save();
@@ -49,7 +51,7 @@ module.exports = function (injectedStore) {
 
     async function deletePlaylistTrack(playlistId, playlistTrackId) {
         const playlist = await store.findOne({ _id: playlistId });
-        playlist.tracks.id(playlistTrackId).remove();
+        playlist.tracks.trackId(playlistTrackId).remove();
         const updated = playlist.save();
         return updated || false;
     }
@@ -78,6 +80,24 @@ module.exports = function (injectedStore) {
         return userFavs || false;
     }
 
+    async function subscribe(playlistId, userId){
+        const playlist = await store.findOne({ _id: playlistId });
+        const playlistSubscriber = {
+            userId: userId,
+            subscribedDate: new Date()
+        };
+        playlist.subscribers.push(playlistSubscriber);
+        const updatedPlaylist = await playlist.save();
+        return updatedPlaylist || false;
+    }
+
+    async function unsubscribe(playlistId, userId) {
+        const playlist = await store.findOne({ _id: playlistId });
+        playlist.subscribers.userId(userId).remove();
+        const updated = playlist.save();
+        return updated || false;
+    }
+
     return {
         createPlaylist,
         updatePlaylist,
@@ -87,6 +107,8 @@ module.exports = function (injectedStore) {
         addPlaylistTrack,
         deletePlaylistTrack,
         createFavPlaylist,
-        getFavorites
+        getFavorites,
+        subscribe,
+        unsubscribe
     }
 }
