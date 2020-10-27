@@ -13,7 +13,7 @@ passport.use(
     },
         async (tokenPayload, cb) => {
             try {
-                const user = await UserService.verifyUser(tokenPayload.email);
+                const user = await UserService.getUserByEmail(tokenPayload.email);
                 if (!user) {
                     return cb("Unauthorized", false);
                 }

@@ -1,9 +1,8 @@
 module.exports = function(injectedStore){
     
   let store = injectedStore;
-    const bcrypt = require('bcrypt');
 
-    async function createUser(data) {   
+  async function createUser(data) {   
         const created = new store(data);
         await created.save();
         return created;
