@@ -27,9 +27,9 @@ function authService(userModel, apiKeysModel) {
   const UserController = userController(userStore);
   const ApiKeyController = apiKeyController(apiKeysStore);
 
-/* -------------------------------------------------------------------------- */
-/*                                   signIn                                   */
-/* -------------------------------------------------------------------------- */
+  /* -------------------------------------------------------------------------- */
+  /*                                   signIn                                   */
+  /* -------------------------------------------------------------------------- */
 
   const signIn = async (req, res, next) => {
     try {
@@ -51,9 +51,9 @@ function authService(userModel, apiKeysModel) {
           const apiKey = await ApiKeyController.getApiKey({
             token: apiKeyToken,
           });
-          
+
           // Validation for an Valid ApiKey
-          if (apiKey.length==0) {
+          if (apiKey.length == 0) {
             next(boom.unauthorized('Invalid Api Key Token'));
           }
           // Compose User Token
@@ -83,9 +83,9 @@ function authService(userModel, apiKeysModel) {
     }
   };
 
-/* -------------------------------------------------------------------------- */
-/*                                   signUp                                   */
-/* -------------------------------------------------------------------------- */
+  /* -------------------------------------------------------------------------- */
+  /*                                   signUp                                   */
+  /* -------------------------------------------------------------------------- */
 
   const signUp = async (req, res, next) => {
     const user = req.body;
@@ -99,7 +99,11 @@ function authService(userModel, apiKeysModel) {
           id: idNewUser,
         };
         // Send Email for future Activation
-        const message = composeActivateMessage(user.name, user.email, newUser.id);
+        const message = composeActivateMessage(
+          user.name,
+          user.email,
+          newUser.id
+        );
         let sendResult = await transporter.sendMail(message);
         if (sendResult.messageId) {
           newUser.emailNotified = true;
@@ -114,9 +118,9 @@ function authService(userModel, apiKeysModel) {
     }
   };
 
-/* -------------------------------------------------------------------------- */
-/*                            Activate User Account                           */
-/* -------------------------------------------------------------------------- */
+  /* -------------------------------------------------------------------------- */
+  /*                            Activate User Account                           */
+  /* -------------------------------------------------------------------------- */
 
   const activateAccount = async (req, res, next) => {
     try {
@@ -139,33 +143,49 @@ function authService(userModel, apiKeysModel) {
     }
   };
 
-/* -------------------------------------------------------------------------- */
-/*                      Sign Provider Facebook and Google                     */
-/* -------------------------------------------------------------------------- */
+  /* -------------------------------------------------------------------------- */
+  /*                      Sign Provider Facebook and Google                     */
+  /* -------------------------------------------------------------------------- */
 
-  const signUpProvider = async (req, res, next) => {
-    const user = req.body;
+  const signProvider = async (req, res, next) => {
+    const { apiKeyToken, ...userRequest} = req.body; 
     try {
-        const findUser = await UserController.getUserByEmail(user.email);
-        if (findUser) {
-          next(boom.unauthorized('Email Already Exist'));
-        } else {
-          const idNewUser = await UserController.createUser(user);
-          const newUser = {
-            id: idNewUser,
-          };
-          // Send Email for future Activation
-          const message = composeActivateMessage(user.name, user.email, newUser.id);
-          let sendResult = await transporter.sendMail(message);
-          if (sendResult.messageId) {
-            newUser.emailNotified = true;
-          }
-          response.success(req, res, 'Success', 201, newUser);
+      const user = await UserController.getOrCreateUser(userRequest);
+      if(user){
+        // Generate JWT
+        if (!apiKeyToken) {
+          return next(boom.unauthorized('Api Key is Required'));
         }
+        // Browse Api Key from BD
+        const apiKey = await ApiKeyController.getApiKey({
+        token: apiKeyToken,
+      });
+      
+      // Validation for an Valid ApiKey
+      if (apiKey.length == 0) {
+        next(boom.unauthorized('Invalid Api Key Token'));
+      }
+        // Compose User Token
+        const { _id, name, email } = user;
+        const payload = {
+          sub: _id,
+          name,
+          email,
+          scopes: apiKey.scopes,
+        };
+        const token = jwt.sign(payload, config.auth_jwt_Secret, {
+          expiresIn: '30m',
+        });
+        const signedUser = {
+          userId: _id,
+          token: token,
+          ...payload,
+        };
+        delete signedUser.sub;
+        
+        response.success(req, res, signedUser, 200);
+      }
     } catch (error) {
-      // if (error.code === 11000) {
-      //   return next(boom.unauthorized('Email Already Exist'));
-      // }
       next(boom.boomify(error, { statusCode: 400 }));
     }
   };
@@ -174,7 +194,7 @@ function authService(userModel, apiKeysModel) {
     signIn,
     signUp,
     activateAccount,
-    signUpProvider,
+    signProvider,
   };
 }
 

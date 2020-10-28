@@ -15,7 +15,9 @@ const config = {
     smtp_ssl: process.env.SMTP_SSL_SUPPORT,
     smtp_tls: process.env.SMTP_TLS_SUPPORT,
     smtp_sender_name: process.env.SMTP_NAME_SENDER,
-    app_url_activate:process.env.APP_URL_ACTIVATE
+    app_url_activate:process.env.APP_URL_ACTIVATE,
+    facebook_app_id:process.env.FACEBOOK_APP_ID,
+    facebook_app_secret:process.env.FACEBOOK_APP_SECRET,
 }
 
 module.exports = config;

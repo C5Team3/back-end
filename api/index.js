@@ -1,7 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-// TODO: VERIFY DEBUG CONSOLE
+
 const debug = require('debug')('app:api:index') 
 const chalk = require('chalk');
 
