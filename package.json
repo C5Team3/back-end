@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "set DEBUG=app:* & nodemon ./api/index.js",
     "start": "DEBUG=app:* node api/index",
-    "setup": "DEBUG=app:* node ./scripts/seedApiKeys.js"
+    "setup": "DEBUG=app:* node ./scripts/seedApiKeys.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "keywords": [],
   "author": "",
@@ -36,8 +38,10 @@
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.13.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.6.1",
     "nodemon": "^2.0.5",
-    "prettier": "^2.1.2"
+    "prettier": "^2.1.2",
+    "supertest": "^5.0.0"
   },
   "husky": {
     "hooks": {
