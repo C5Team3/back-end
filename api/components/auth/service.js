@@ -94,7 +94,7 @@ function authService(userModel, apiKeysModel) {
       if (findUser) {
         next(boom.unauthorized('Email Already Exist'));
       } else {
-        const idNewUser = await UserController.createUser(user);
+        const  idNewUser= await UserController.createUser(user);
         const newUser = {
           id: idNewUser,
         };
@@ -102,8 +102,10 @@ function authService(userModel, apiKeysModel) {
         const message = composeActivateMessage(
           user.name,
           user.email,
-          newUser.id
+          idNewUser._id
         );
+        console.log(idNewUser._id);
+
         let sendResult = await transporter.sendMail(message);
         if (sendResult.messageId) {
           newUser.emailNotified = true;
@@ -114,7 +116,7 @@ function authService(userModel, apiKeysModel) {
       if (error.code === 11000) {
         return next(boom.unauthorized('Email Already Exist'));
       }
-      next(boom.boomify(error, { statusCode: 400 }));
+      next(boom.boomify(error, { statusCode: 500 }));
     }
   };
 
@@ -186,7 +188,7 @@ function authService(userModel, apiKeysModel) {
         response.success(req, res, signedUser, 200);
       }
     } catch (error) {
-      next(boom.boomify(error, { statusCode: 400 }));
+      next(boom.boomify(error, { statusCode: 500 }));
     }
   };
 

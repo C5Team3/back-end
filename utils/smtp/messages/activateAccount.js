@@ -11,7 +11,8 @@ function composeActivateMessage(name, email, id) {
     html: `
         <b>Hello ${name} Welcome to Rokker Music App, Please Activate your Account with Link</b>
         <p>Cheers, 🎸  Rockker Support Team</p>
-        <a href="${config.app_url_activate}?id=${id}">Activate Account LINK: ${config.app_url_activate}</a>
+        <a href="${config.app_url_activate}?id=${id}">Click Here for activate your Account</a>
+        <p>Problems ? Copy and Paste Link: ${config.app_url_activate}</p>
       `, // html body
   };
 }
