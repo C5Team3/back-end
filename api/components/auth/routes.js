@@ -8,6 +8,7 @@ const apiKeysModel = require('../../../models/apiKey');
 
 const AuthService = authService(userModel, apiKeysModel);
 const objectIdValidationHandler = require('../../../utils/middleware/objectIdValidationHanlder');
+const facebookTokenValidationHandler = require('../../../utils/middleware/facebookTokenValidationHandler');
 
 require('../../../utils/auth/strategies/basic');
 
@@ -40,9 +41,9 @@ function authRoutes(app) {
   /* -------------------------------------------------------------------------- */
   /*                               signUpProvider                               */
   /* -------------------------------------------------------------------------- */
-  router.post('/sign-up/provider', 
-    // TODO FACEBOOK TOKEN VALIDATE
-    AuthService.signUpProvider
+  router.post('/sign/provider', 
+  facebookTokenValidationHandler(),
+  AuthService.signProvider
   );
 }
 module.exports = authRoutes;

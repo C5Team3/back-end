@@ -39,8 +39,8 @@ module.exports = function(injectedStore){
     }
 
     async function getOrCreateUser(data) {
-        const user = await store.findOne({ email: data.email });
-        if (user) 
+        const user = await store.findOne({email:data.email});
+        if (user)
             return user;
         await this.createUser(data);
         return await this.getUserByEmail(data.email);
