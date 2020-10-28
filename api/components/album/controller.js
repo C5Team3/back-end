@@ -23,7 +23,7 @@ module.exports = function(injectedStore){
   }
 
   async function getAlbums(){
-      const albums = await store.find( { deleted_at: null });
+      const albums = await store.find();
       return albums || [];
   }
 

@@ -10,7 +10,7 @@ function artistService(injectedStore) {
             const artists = await Controller.getArtists();
             response.success(req, res, artists, 200);
         } catch (error) {
-            next(error);
+            next(boom.boomify(error, { statusCode: 500 }));
         }
     }
 
@@ -27,7 +27,7 @@ function artistService(injectedStore) {
                 }], 400);
             }
         } catch (error) {
-            next(error);
+            next(boom.boomify(error, { statusCode: 500 }));
         }
     };
 
@@ -37,7 +37,7 @@ function artistService(injectedStore) {
             const createdArtist = await Controller.createArtist(data);
             response.success(req, res, createdArtist, 201);
         } catch (error) {
-          next(boom.boomify(error, { statusCode: 400 }));      
+            next(boom.boomify(error, { statusCode: 500 }));
         }
     };
 
@@ -52,7 +52,7 @@ function artistService(injectedStore) {
             }], 400);
             response.success(req, res, updatedArtist, 200);
         } catch (error) {
-            next(error);
+            next(boom.boomify(error, { statusCode: 500 }));
         }
     };
 
@@ -66,7 +66,7 @@ function artistService(injectedStore) {
             }], 400);
             response.success(req, res, deletedArtist, 201);
         } catch (error) {
-            next(error);
+            next(boom.boomify(error, { statusCode: 500 }));
         }
     };
 

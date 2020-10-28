@@ -4,7 +4,7 @@
   "description": "",
   "main": "./api/index.js",
   "scripts": {
-    "dev": "DEBUG=app:* nodemon ./api/index.js",
+    "dev": "set DEBUG=app:* & nodemon ./api/index.js",
     "start": "DEBUG=app:* node api/index",
     "setup": "DEBUG=app:* node ./scripts/seedApiKeys.js"
   },
@@ -24,6 +24,7 @@
     "express": "^4.17.1",
     "helmet": "^4.1.1",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
     "mongoose": "^5.10.9",
     "nodemailer": "^6.4.14",
     "passport": "^0.4.1",
