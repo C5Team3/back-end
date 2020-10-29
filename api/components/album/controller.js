@@ -23,6 +23,7 @@ module.exports = function(injectedStore){
   }
 
   async function getAlbums(){
+      console.log('Llegó al controller');
       const albums = await store.find();
       return albums || [];
   }
