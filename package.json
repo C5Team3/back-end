@@ -1,10 +1,15 @@
 {
-  "name": "src",
+  "name": "backend-rockker-music-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "API Backend for Music App, using Node JS, EXPRESS and Mongo DB",
+  "engines": {
+    "node": "12.18.3",
+    "npm": "6.14.8"
+  },
   "main": "./api/index.js",
   "scripts": {
-    "dev": "DEBUG=app:* & nodemon ./api/index.js",
+    "dev": "set DEBUG=app:* & nodemon ./api/index.js",
+    "devOsx": "DEBUG=app:* nodemon ./api/index.js",
     "start": "DEBUG=app:* node api/index",
     "seedApiKeys": "DEBUG=app:* node ./scripts/seedApiKeys.js",
     "seedSpotify": "DEBUG=app:* node ./scripts/seedSpotifyData.js",
