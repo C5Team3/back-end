@@ -27,8 +27,8 @@ module.exports = function(injectedStore){
       return albums || [];
   }
 
-  async function getAlbum(albumId) {
-      const album = await store.findOne({ _id: albumId });
+  async function getAlbum(albumQuery) {
+      const album = await store.findOne(albumQuery);
       return album || false;
   }
 

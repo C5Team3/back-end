@@ -17,7 +17,7 @@ function artistService(injectedStore) {
     const getArtist = async (req, res, next) => {
         const { params } = req;
         try {
-            const artist = await Controller.getArtist(params.artistId);
+            const artist = await Controller.getArtist({_id:params.artistId});
             if (artist) {
                 response.success(req, res, artist, 200);
             } else {

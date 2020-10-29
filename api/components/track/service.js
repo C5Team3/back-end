@@ -18,7 +18,7 @@ function trackService(injectedStore) {
     const getTrack = async (req, res, next) => {
         const { params } = req;
         try {
-            const track = await Controller.getTrack(params.trackId);
+            const track = await Controller.getTrack({_id:params.trackId});
             if (track) {
                 response.success(req, res, track, 200);
             } else {

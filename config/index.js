@@ -18,6 +18,8 @@ const config = {
     app_url_activate:process.env.APP_URL_ACTIVATE,
     facebook_app_id:process.env.FACEBOOK_APP_ID,
     facebook_app_secret:process.env.FACEBOOK_APP_SECRET,
+    spotify_client_id:process.env.SPOTIFY_CLIENT_ID,
+    spotify_client_secret:process.env.SPOTIFY_CLIENT_SECRET,
 }
 
 module.exports = config;

@@ -27,16 +27,19 @@ module.exports = function(injectedStore){
       return tracks || [];
   }
 
-  async function getTrack(trackId) {
-      const track = await store.findOne({ _id: trackId });
+  async function getTrack(queryTrack) {
+      console.log("FROM CONTROLLER TRACK")
+      console.log(queryTrack)
+      const track = await store.findOne(queryTrack);
       return track || false;
   }
+
 
   return {
       createTrack,
       updateTrack,
       deleteTrack,
       getTrack,
-      getTracks
+      getTracks,
   }
 }

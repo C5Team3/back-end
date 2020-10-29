@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "set DEBUG=app:* & nodemon ./api/index.js",
     "start": "DEBUG=app:* node api/index",
-    "setup": "DEBUG=app:* node ./scripts/seedApiKeys.js"
+    "seedApiKeys": "DEBUG=app:* node ./scripts/seedApiKeys.js",
+    "seedSpotify": "DEBUG=app:* node ./scripts/seedSpotifyData.js"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +31,7 @@
     "passport": "^0.4.1",
     "passport-http": "^0.3.0",
     "passport-jwt": "^4.0.0",
+    "spotify-web-api-node": "^5.0.0",
     "supports-color": "^7.2.0",
     "swagger-ui-express": "^4.1.4"
   },

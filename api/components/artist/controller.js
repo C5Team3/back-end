@@ -27,8 +27,8 @@ module.exports = function(injectedStore){
         return artists || [];
     }
 
-    async function getArtist(artistId) {
-        const artist = await store.findOne({ _id: artistId });
+    async function getArtist(artistQuery) {
+        const artist = await store.findOne(artistQuery);
         return artist || false;
     }
 

@@ -19,7 +19,7 @@ function albumService(injectedStore) {
     const getAlbum = async (req, res, next) => {
         const { params } = req;
         try {
-            const album = await Controller.getAlbum(params.albumId);
+            const album = await Controller.getAlbum({_id:params.albumId});
             if (album) {
                 response.success(req, res, album, 200);
             } else {
