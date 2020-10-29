@@ -1,34 +1,25 @@
 const testServer = require('../../utils/testServer');
 
-describe(`[${baseMock} Endpoints]`, () => {
+const baseRoute = '/api/album';
+// const baseMock = 'Album';
+
+describe(`[Album Endpoints]`, () => {
 
     const route = require('../../api/components/album/routes');
     const request = testServer(route);
 
-    describe(`Routes ${baseMock}`, () => {
-        it(`[GET] should return a collection of ${baseMock}`, async () => {
-            const res = await request.get(baseRoute)
-                .end((err, res) => {
-                    expect(res.body).toMatchObject({
-                        error: expect.any(Boolean),
-                        status: expect.any(Number),
-                        data: expect.any(Object)
-                    });
-                    done();
+    describe(`Routes Album`, () => {
+        
+        it(`[GET] should return a collection of Album`, async () => {
+            request.get(baseRoute).end((req, res) => {
+                expect(res.status).toBe(200); //agregué esto para checar status
+                expect(res.body).toMatchObject({
+                    error: expect.any(Boolean),
+                    status: expect.any(Number),
+                    data: expect.any(Object)
                 });
-        });
-
-        it(`[GET] Should return a collection of ${baseMock}`, function (done) {
-            request.get(`${baseRoute}/${eventId}`)
-                .set('x-access-token', token)
-                .end((err, res) => {
-                    expect(res.body).toMatchObject({
-                        error: expect.any(Boolean),
-                        status: expect.any(Number),
-                        data: expect.any(Object)
-                    });
-                    done();
-                });
+            done();
+            });
         });
     });
 });
