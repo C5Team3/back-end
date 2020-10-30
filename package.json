@@ -4,7 +4,7 @@
   "description": "",
   "main": "./api/index.js",
   "scripts": {
-    "dev": "DEBUG=app:* & nodemon ./api/index.js",
+    "dev": "set DEBUG=app:* & nodemon ./api/index.js",
     "start": "DEBUG=app:* node api/index",
     "seedApiKeys": "DEBUG=app:* node ./scripts/seedApiKeys.js",
     "seedSpotify": "DEBUG=app:* node ./scripts/seedSpotifyData.js",
