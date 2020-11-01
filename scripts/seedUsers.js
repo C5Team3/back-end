@@ -23,7 +23,7 @@ async function seedUsers() {
   try {
     // const MONGO_URI_OVERRIDE = `mongodb://127.0.0.1:27017/music_app_test`;
     // db.connect(MONGO_URI_OVERRIDE);
-    db.connect();
+    // db.connect();
     const promises = usersFixtures.map(async (user) => {
       await userController.createUser(user);
     });
