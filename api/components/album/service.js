@@ -9,7 +9,6 @@ function albumService(injectedStore) {
 
     const getAlbums = async (req, res, next) => {
         try {
-            console.log('Llegó al service');
             const albums = await Controller.getAlbums();
             response.success(req, res, albums, 200);
         } catch (error) {

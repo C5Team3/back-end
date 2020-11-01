@@ -42,6 +42,12 @@ const adminScopes = [
   'update:user',
   'delete:user',
 
+  'create:playlists',
+  'update:playlists',
+  'delete:playlists',
+  'read:playlists',
+
+  'read:searchHistory'
 ];
 
 
@@ -55,6 +61,11 @@ const publicScopes = [
   'read:track',
   'read:user',
   'update:user',
+  'create:playlists',
+  'update:playlists',
+  'delete:playlists',
+  'read:playlists',
+  'read:searchHistory'
 ]
 
 const apiKeys = [

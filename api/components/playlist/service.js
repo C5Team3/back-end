@@ -13,7 +13,8 @@ function playlistService(injectedStore) {
 
     const getPlaylists = async (req, res, next) => {
         try {
-            const playlists = await Controller.getPlaylists();
+            const user = req.user._doc;
+            const playlists = await Controller.getPlaylists(user._id);
             response.success(req, res, playlists, 200);
         } catch (error) {
             next(boom.boomify(error, { statusCode: 400 }));
@@ -22,8 +23,9 @@ function playlistService(injectedStore) {
 
     const getPlaylist = async (req, res, next) => {
         const { params } = req;
+        const user = req.user._doc;
         try {
-            const playlist = await Controller.getPlaylist(params.playlistId);
+            const playlist = await Controller.getPlaylist(params.playlistId, user._id);
             if (playlist) {
                 response.success(req, res, playlist, 200);
             } else {
@@ -39,8 +41,9 @@ function playlistService(injectedStore) {
 
     const createPlaylist = async (req, res, next) => {
         const { body: data } = req;
+        const user = req.user._doc;
         try {
-            const createdPlaylist = await Controller.createPlaylist(data);
+            const createdPlaylist = await Controller.createPlaylist(data, user._id);
             response.success(req, res, createdPlaylist, 201);
         } catch (error) {
             next(boom.boomify(error, { statusCode: 500 }));
@@ -129,7 +132,7 @@ function playlistService(injectedStore) {
     };
 
     const getFavorites = async (req, res, next) => {
-        const user = req.user;
+        const user = req.user._doc;
         try {
             const userFavs = await Controller.getFavorites(user._id);
             if (!userFavs)
@@ -145,7 +148,7 @@ function playlistService(injectedStore) {
 
     const subscribe = async (req, res, next) => {
         const { params } = req;
-        const user = req.user;
+        const user = req.user._doc;
         try {
             const subscribe = await Controller.subscribe(params.playlistId, user._id);
             if (!subscribe)
@@ -162,7 +165,7 @@ function playlistService(injectedStore) {
 
     const unsubscribe = async (req, res, next) => {
         const { params } = req;
-        const user = req.user;
+        const user = req.user._doc;
         try {
             const unsubscribe = await Controller.unsubscribe(params.playlistId, user._id);
             if (!unsubscribe)

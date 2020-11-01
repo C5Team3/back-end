@@ -1,6 +1,9 @@
 const response = require('../../../utils/response');
 const userController = require('../user/controller');
 const apiKeyController = require('../apiKey/controller');
+const Playlist = require('../../../models/playlists');
+const playlistController = require('../playlist/controller');
+
 const boom = require('boom');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
@@ -17,6 +20,8 @@ let transporter = nodemailer.createTransport({
     pass: config.smtp_password, // generated ethereal password
   },
 });
+
+
 
 // Basic strategy
 require('../../../utils/auth/strategies/basic');
@@ -98,6 +103,11 @@ function authService(userModel, apiKeysModel) {
         const newUser = {
           id: idNewUser,
         };
+        //Create Favs playlist
+        PlaylistController = playlistController(Playlist);
+        const favPlaylist = await PlaylistController.createFavPlaylist(idNewUser);
+        if(favPlaylist) 
+          newUser.favorites = favPlaylist;
         // Send Email for future Activation
         const message = composeActivateMessage(
           user.name,
@@ -110,7 +120,7 @@ function authService(userModel, apiKeysModel) {
         if (sendResult.messageId) {
           newUser.emailNotified = true;
         }
-        response.success(req, res, 'Success', 201, newUser);
+        response.success(req, res, newUser, 201);
       }
     } catch (error) {
       if (error.code === 11000) {

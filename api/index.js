@@ -24,7 +24,7 @@ const albumRoutes = require('./components/album/routes');
 const trackRoutes = require('./components/track/routes');
 const authRoutes = require('./components/auth/routes');
 const playlistRoutes = require('./components/playlist/routes');
-
+const searchRoutes = require('./components/searchHistory/routes');
 
 //Models
 const User = require('../models/users');
@@ -33,6 +33,7 @@ const Gender = require('../models/gender');
 const Album = require('../models/albums');
 const Track = require('../models/tracks');
 const Playlist = require('../models/playlists');
+const SearchHistory = require('../models/searchHistory');
 
 
 
@@ -58,6 +59,8 @@ albumRoutes(app, Album);
 trackRoutes(app, Track);
 authRoutes(app, User);
 playlistRoutes(app, Playlist);
+searchRoutes(app, SearchHistory);
+
 
 app.use(logErrors);
 app.use(errorHandler);

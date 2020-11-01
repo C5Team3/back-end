@@ -32,11 +32,17 @@ module.exports = function(injectedStore){
         return artist || false;
     }
 
+    async function searchArtists(filter) {
+        const artists = await store.find({ name: { $regex: filter, $options: 'i' } });
+        return artists || [];
+    }
+
     return {
         createArtist,
         updateArtist,
         deleteArtist,
         getArtists,
-        getArtist
+        getArtist,
+        searchArtists
     }
 }

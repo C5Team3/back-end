@@ -19,4 +19,10 @@ const playlistSchema = new Schema({
     subscribers: [ playListSubscribersSchema ]
 }, { timestamps: true });
 
+playlistSchema.post('save', function(doc, next) {
+    doc.populate('tracks.trackId').execPopulate().then(function() {
+      next();
+    });
+  });
+
 module.exports = model('Playlists', playlistSchema);
