@@ -8,7 +8,8 @@ function trackService(injectedStore) {
 
     const getTracks = async (req, res, next) => {
         try {
-            const tracks = await Controller.getTracks();
+            const page = parseInt(req.query.page);
+            const tracks = await Controller.getTracks(page);
             response.success(req, res, tracks, 200);
         } catch (error) {
             next(error);

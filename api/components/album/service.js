@@ -9,7 +9,8 @@ function albumService(injectedStore) {
 
     const getAlbums = async (req, res, next) => {
         try {
-            const albums = await Controller.getAlbums();
+            const page = parseInt(req.query.page);
+            const albums = await Controller.getAlbums(page);
             response.success(req, res, albums, 200);
         } catch (error) {
             next(error);

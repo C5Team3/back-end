@@ -7,7 +7,8 @@ function artistService(injectedStore) {
 
     const getArtists = async (req, res, next) => {
         try {
-            const artists = await Controller.getArtists();
+            const page = parseInt(req.query.page);
+            const artists = await Controller.getArtists(page);
             response.success(req, res, artists, 200);
         } catch (error) {
             next(boom.boomify(error, { statusCode: 500 }));

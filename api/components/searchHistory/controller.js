@@ -64,8 +64,6 @@ module.exports = function (injectedStore) {
         return topSearchs;
     }
 
-
-
     return {
         search,
         getLastSearchs,

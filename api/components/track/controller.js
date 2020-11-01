@@ -1,6 +1,7 @@
 module.exports = function (injectedStore) {
   let store = injectedStore;
-
+  const PAGE_SIZE = 20;
+  
   async function createTrack(data) {
     const created = new store(data);
     await created.save();
@@ -22,9 +23,16 @@ module.exports = function (injectedStore) {
     return getDeletedTrack;
   }
 
-  async function getTracks() {
-    const tracks = await store.find({ deleted_at: null });
-    return tracks || [];
+  async function getTracks(page = 1) {
+    const skip = (page - 1) * PAGE_SIZE;
+    const tracks = await store.find().skip(skip).limit(PAGE_SIZE);
+    const count = await store.countDocuments();
+    const paginatedResponse = {
+      totalPages: Math.ceil(count / PAGE_SIZE),
+      currentPage: page ? page : 1,
+      tracks: tracks
+    };
+    return paginatedResponse || [];
   }
 
   async function getTrack(queryTrack) {
