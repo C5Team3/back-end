@@ -79,13 +79,13 @@ function userService(injectedStore) {
         try {
             const deletedUser = await Controller.deleteUser(params.userId);
             if (!deletedUser) {
-              response.error(req, res, [{
+              return response.error(req, res, [{
                   "msg": "User not found",
                   "param": "USER_NOT_FOUND"
               }], 400);
             }
             else{
-              response.success(req, res, deletedUser, 201);
+              return response.success(req, res, deletedUser, 200);
             }
               
             

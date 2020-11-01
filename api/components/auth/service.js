@@ -10,6 +10,11 @@ const jwt = require('jsonwebtoken');
 const config = require('../../../config/index');
 const nodemailer = require('nodemailer');
 const composeActivateMessage = require('../../../utils/smtp/messages/activateAccount');
+const composeRecoveryMessage = require('../../../utils/smtp/messages/recoveryAccount');
+const genRandomPassword = require('../../../utils/generators/genRandonKey');
+const debug = require('debug');
+const chalk = require('chalk');
+const bcrypt= require('bcrypt');
 
 let transporter = nodemailer.createTransport({
   host: config.smtp_host,
@@ -99,22 +104,21 @@ function authService(userModel, apiKeysModel) {
       if (findUser) {
         next(boom.unauthorized('Email Already Exist'));
       } else {
-        const  idNewUser= await UserController.createUser(user);
-        const newUser = {
-          id: idNewUser,
-        };
+        const  newUser= await UserController.createUser(user);
+  
         //Create Favs playlist
-        PlaylistController = playlistController(Playlist);
-        const favPlaylist = await PlaylistController.createFavPlaylist(idNewUser);
+        const PlaylistController = playlistController(Playlist);
+        const favPlaylist = await PlaylistController.createFavPlaylist(newUser);
         if(favPlaylist) 
           newUser.favorites = favPlaylist;
+
+
         // Send Email for future Activation
         const message = composeActivateMessage(
-          user.name,
-          user.email,
-          idNewUser._id
+          newUser.name,
+          newUser.email,
+          newUser._id
         );
-        console.log(idNewUser._id);
 
         let sendResult = await transporter.sendMail(message);
         if (sendResult.messageId) {
@@ -202,11 +206,61 @@ function authService(userModel, apiKeysModel) {
     }
   };
 
+
+/* -------------------------------------------------------------------------- */
+/*                              Recovery Password                             */
+/* -------------------------------------------------------------------------- */
+
+const recoveryPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const user = await UserController.getUser({email:email});
+    const userId = user._id;
+    const newPassword = genRandomPassword(8);
+    user.password = await bcrypt.hash(newPassword, 12);
+    
+    delete user._id
+    if (user) {
+      const updatedUser = await UserController.updateUser(userId, user);
+
+      // Sending  Email for recovery 
+      const message = composeRecoveryMessage(
+        updatedUser.name,
+        updatedUser.email,
+        newPassword,
+      );
+      updatedUser.emailNotified =false; 
+
+      let sendResult = await transporter.sendMail(message);
+
+      if (sendResult.messageId) {
+        updatedUser.emailNotified = true;
+      }
+      debug(chalk("Failed Sending Email for Recovery Account"));
+      
+      response.success(req, res,'New Password Has been Generate', 200);
+
+
+    } else {
+      response.error(
+        req,
+        res,
+        [{ msg: 'User not found', param: 'USER_NOT_FOUND' }],
+        400
+      );
+    }
+  } catch (err) {
+    next(boom.boomify(err, { statusCode: 400 }));
+  }
+};
+
+
   return {
     signIn,
     signUp,
     activateAccount,
     signProvider,
+    recoveryPassword
   };
 }
 

@@ -9,6 +9,8 @@ const apiKey = require('../models/apiKey');
 const apiKeyController = require('../api/components/apiKey/controller');
 const ApiKeyController = apiKeyController(apiKey);
 
+const generateRandomToken = require('../utils/generators/genRandonKey');
+
 
 const adminScopes = [
   
@@ -70,25 +72,22 @@ const publicScopes = [
 
 const apiKeys = [
   {
-    token: generateRandomToken(),
+    token: generateRandomToken(32),
     scopes: adminScopes,
     type:"ADMIN_SCOPE",
   },
   {
-    token: generateRandomToken(),
+    token: generateRandomToken(32),
     scopes: publicScopes,
     type:"PUBLIC_SCOPE",
   }
 ];
 
 
-function generateRandomToken() {
-  const buffer = crypto.randomBytes(32);
-  return buffer.toString('hex');
-}
-
 async function seedApiKeys() {
   try {
+    // const MONGO_URI_OVERRIDE =`mongodb://127.0.0.1:27017/music_app_test`;
+    // db.connect(MONGO_URI_OVERRIDE);
       db.connect();
       await ApiKeyController.emptyApiKeys();
       const promises = apiKeys.map(async apiKey => {

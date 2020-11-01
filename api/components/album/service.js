@@ -35,6 +35,7 @@ function albumService(injectedStore) {
 
     const createAlbum = async (req, res, next) => {
         const { body: data } = req;
+        
         try {
             const createdAlbum = await Controller.createAlbum(data);
             response.success(req, res, createdAlbum, 201);
@@ -69,7 +70,7 @@ function albumService(injectedStore) {
             if (!deletedAlbum) {
               response.error(req, res, [{"msg": "Album not found","param": "ALBUM_NOT_FOUND"}], 400);
             }else{
-              response.success(req, res, deletedAlbum, 201);
+              response.success(req, res, deletedAlbum, 200);
             }
         } catch (error) {
             next(error);

@@ -117,6 +117,10 @@ const { name, duration_ms, preview_url, id} = spotifyTrack;
 
 async function seedSpotifyPlayList() {
   try {
+
+    // const MONGO_URI_OVERRIDE =`mongodb://127.0.0.1:27017/music_app_test`;
+    // db.connect(MONGO_URI_OVERRIDE);
+  
     db.connect();
     // Get Access token
     const spotifyCredentials = await spotifyApi.clientCredentialsGrant();
