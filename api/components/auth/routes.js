@@ -45,5 +45,13 @@ function authRoutes(app) {
   facebookTokenValidationHandler(),
   AuthService.signProvider
   );
+
+  /* -------------------------------------------------------------------------- */
+  /*                               signUpProvider                               */
+  /* -------------------------------------------------------------------------- */
+  
+  router.post('/recovery', 
+  AuthService.recoveryPassword
+  );
 }
 module.exports = authRoutes;

@@ -27,7 +27,7 @@ const playlistRoutes = require('./components/playlist/routes');
 
 
 //Models
-const User = require('../models/users');
+const User = require('../models/users'); // Disable for test
 const Artist = require('../models/artists');
 const Gender = require('../models/gender');
 const Album = require('../models/albums');
@@ -48,6 +48,9 @@ app.get('/api', (req, res) => { res.send('Hello World') });
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 //Connect Database
+
+// const MONGO_URI_OVERRIDE =`mongodb://127.0.0.1:27017/music_app_test`;
+// db.connect(MONGO_URI_OVERRIDE);
 db.connect();
 
 //Routes

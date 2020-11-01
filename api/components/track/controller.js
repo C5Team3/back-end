@@ -28,8 +28,6 @@ module.exports = function(injectedStore){
   }
 
   async function getTrack(queryTrack) {
-      console.log("FROM CONTROLLER TRACK")
-      console.log(queryTrack)
       const track = await store.findOne(queryTrack);
       return track || false;
   }

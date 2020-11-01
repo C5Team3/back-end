@@ -12,8 +12,8 @@ function albumRoutes(app, store){
   app.use('/api/album',router);
 
   router.get('/',
-    // passport.authenticate('jwt', { session: false }),
-    // scopesValidationHandler(['read:album']),
+    passport.authenticate('jwt', { session: false }),
+    scopesValidationHandler(['read:album']),
     AlbumService.getAlbums
   )
   router.get('/:albumId',

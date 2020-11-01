@@ -4,10 +4,11 @@ const boom = require('boom');
 function scopesValidationHandler(allowedScopes) {
     return (req, res, next) => {
         if (!req.user || (req.user && !req.user.scopes)) {
-            next(response.error(req, res, [{
-                "msg": "Missing Scopes",
-                "param": "MISSING_SCOPES"
-            }], 401));
+            // next(response.error(req, res, [{
+            //     "msg": "Missing Scopes",
+            //     "param": "MISSING_SCOPES"
+            // }], 401));
+            next(boom.unauthorized('Insufficient Scopes'));
         }
 
         const permissions = allowedScopes
@@ -18,7 +19,7 @@ function scopesValidationHandler(allowedScopes) {
         if (hasAccess) {
             next();
         } else {
-            next(boom.unauthorized('Insufficient Scopes'));
+          response.error(req,res,'Missing Scopes',401);
         }
     }
 }

@@ -20,6 +20,12 @@ const config = {
     facebook_app_secret:process.env.FACEBOOK_APP_SECRET,
     spotify_client_id:process.env.SPOTIFY_CLIENT_ID,
     spotify_client_secret:process.env.SPOTIFY_CLIENT_SECRET,
+    default_admin_user_email:process.env.ADMIN_USER_EMAIL,
+    default_admin_user_password:process.env.ADMIN_USER_PASSWORD,
+    default_admin_user_name:process.env.ADMIN_USER_NAME,
+    test_admin_api_key:process.env.TEST_ADMIN_API_KEY,
+    test_public_api_key:process.env.TEST_PUBLIC_API_KEY,
+    app_url_recovery:process.env.APP_URL_RECOVERY
 }
 
 module.exports = config;
