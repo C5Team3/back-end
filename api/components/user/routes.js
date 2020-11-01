@@ -22,7 +22,7 @@ function userRoutes(app, store) {
   router.put(
     '/:userId',
     passport.authenticate('jwt', { session: false }),
-    // TODO VALIDATION PROPERTY HANDLER
+    
     scopesValidationHandler(['update:user']),
     UserService.updateUser
   );
@@ -41,7 +41,6 @@ function userRoutes(app, store) {
   router.get(
     '/:userId',
     passport.authenticate('jwt', { session: false }),
-    // TODO VALIDATION PROPERTY
     scopesValidationHandler(['read:user']),
     UserService.getUser
   );

@@ -1,6 +1,8 @@
-# Music APP BACKEND API! 
 ![musicAPP](https://repository-images.githubusercontent.com/303908641/bd058780-1c36-11eb-9623-1f64d214f5f5)
 ![status](https://img.shields.io/badge/STATUS-In%20Progress-yellow)
+
+# Music APP BACKEND API! 
+
 ## Description
 
 We know how important music tends to be in our lives, Rockker Music App, is a mobile frist platform, where you can listen to your favorite music, create playlists, group your favorite songs, search for your favorite artists and songs, among other features that you will be able to enjoy.

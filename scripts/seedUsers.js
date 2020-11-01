@@ -1,5 +1,3 @@
-// DEBUG=app:* node ./scripts/seedApiKeys.js
-
 const chalk = require('chalk');
 const debug = require('debug')('app:scripts:seed-users');
 const db = require('../lib/db');
@@ -21,9 +19,17 @@ usersFixtures.push(adminUser);
 
 async function seedUsers() {
   try {
-    // const MONGO_URI_OVERRIDE = `mongodb://127.0.0.1:27017/music_app_test`;
-    // db.connect(MONGO_URI_OVERRIDE);
-    // db.connect();
+    
+    if(config.db_test_mode=="true"){
+      const db_test = config.db_local_test_url;
+      debug(chalk.blue("Changing DB Mode to Testing, Connected to Test DB"));
+      db.connect(db_test);
+    }
+    else{
+      debug(chalk.red("Connected to Production DB"));
+      db.connect();
+    }
+    
     const promises = usersFixtures.map(async (user) => {
       await userController.createUser(user);
     });

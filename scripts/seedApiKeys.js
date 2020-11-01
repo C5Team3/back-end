@@ -1,15 +1,15 @@
 // DEBUG=app:* node ./scripts/seedApiKeys.js
 
 const chalk = require('chalk');
-const crypto = require('crypto');
 const debug = require('debug')('app:scripts:api-keys');
 const db = require('../lib/db');
+const config = require('../config/index');
 
 const apiKey = require('../models/apiKey');
 const apiKeyController = require('../api/components/apiKey/controller');
 const ApiKeyController = apiKeyController(apiKey);
 
-const generateRandomToken = require('../utils/generators/genRandonKey');
+const generateRandomToken = require('../utils/generators/genRandomKey');
 
 
 const adminScopes = [
@@ -19,21 +19,19 @@ const adminScopes = [
   'sign_provider:auth',
 
   'read:album',
+  'read:albums',
   'create:album',
   'update:album',
   'delete:album',
   
   'read:artist',
+  'read:artists',
   'create:artist',
   'update:artist',
   'delete:artist',
-
-  'read:gender',              
-  'create:gender',
-  'update:gender',
-  'delete:gender',
   
   'read:track',
+  'read:tracks',
   'create:track',
   'update:track',
   'delete:track',
@@ -59,8 +57,10 @@ const publicScopes = [
   'sign_provider:auth',
   'read:album',  
   'read:artist',
+  'read:artists',
   'read:gender', 
   'read:track',
+  'read:tracks',
   'read:user',
   'update:user',
   'create:playlists',
@@ -86,9 +86,17 @@ const apiKeys = [
 
 async function seedApiKeys() {
   try {
-    // const MONGO_URI_OVERRIDE =`mongodb://127.0.0.1:27017/music_app_test`;
-    // db.connect(MONGO_URI_OVERRIDE);
+    
+    if(config.db_test_mode=="true"){
+      const db_test = config.db_local_test_url;
+      debug(chalk.blue("Changing DB Mode to Testing, Connected to Test DB"));
+      db.connect(db_test);
+    }
+    else{
+      debug(chalk.red("Connected to Production DB"));
       db.connect();
+    }
+    
       await ApiKeyController.emptyApiKeys();
       const promises = apiKeys.map(async apiKey => {
       await ApiKeyController.createApiKey(apiKey);

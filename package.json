@@ -14,10 +14,10 @@
     "seedApiKeys": "DEBUG=app:* node ./scripts/seedApiKeys.js",
     "seedSpotify": "DEBUG=app:* node ./scripts/seedSpotifyData.js",
     "seedUsers": "DEBUG=app:* node ./scripts/seedUsers.js",
-    "setup": "DEBUG=app:* node ./scripts/seedApiKeys.js && node ./scripts/seedSpotifyData.js && node ./scripts/seedUsers.js",
+    "setup": "DEBUG=app:* node ./scripts/seedApiKeys.js && DEBUG=app:* node ./scripts/seedSpotifyData.js && DEBUG=app:* node ./scripts/seedUsers.js",
     "test": "mocha --exit",
-    "coverage":"nyc npm run test",
-    "report":"nyc report --reporter=html && open coverage/index.html"
+    "coverage": "nyc npm run test",
+    "report": "nyc report --reporter=html && open coverage/index.html"
   },
   "keywords": [],
   "author": "",
@@ -50,6 +50,7 @@
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.13.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "flush-cache": "^1.0.1",
     "jest": "^26.6.1",
     "mocha": "^8.2.0",
     "nodemon": "^2.0.5",
@@ -68,8 +69,10 @@
   "lint-staged": {
     "*.js": "eslint --cache --fix"
   },
-  "nyc":{
-    "all":true,
-    "include":["api"]
+  "nyc": {
+    "all": true,
+    "include": [
+      "api"
+    ]
   }
 }

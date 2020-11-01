@@ -7,6 +7,8 @@ const config = {
     db_password: process.env.DB_PASSWORD,
     db_host: process.env.DB_HOST,
     db_name: process.env.DB_NAME,
+    db_local_test_url:process.env.DB_LOCAL_TEST_URI,
+    db_test_mode:process.env.DB_TEST_MODE,
     auth_jwt_Secret: process.env.AUTH_JWT_SECRET,
     smtp_user: process.env.SMTP_USER,
     smtp_password: process.env.SMTP_PASSWORD,

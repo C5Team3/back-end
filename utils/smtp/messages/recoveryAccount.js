@@ -1,7 +1,5 @@
 const config = require('../../../config/index');
 
-//TODO VERIFY EMAIL LINK GENERATOR 
-
 function composeActivateMessage(name, email, password) {
   return {
     from: `"🎸 ${config.smtp_sender_name}  " <${config.smtp_user}>`, // sender address
