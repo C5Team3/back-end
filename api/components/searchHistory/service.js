@@ -18,8 +18,9 @@ function searchHistoryService(injectedStore) {
     }
 
     const lastSearches = async (req, res, next) => {
+        const user = req.user._doc;
         try {
-            const lastResults = await Controller.getLastSearchs();
+            const lastResults = await Controller.getLastSearchs(user._id);
             response.success(req, res, lastResults, 200);
         } catch (error) {
             next(boom.boomify(error, { statusCode: 500 }));

@@ -26,7 +26,7 @@ module.exports = function (injectedStore) {
         //Search Playlists
         PlaylistController = playlistController(Playlist);
         const playlistsResults = await PlaylistController.searchPlaylists(filterText);
-        
+
         const result = {
             userId: user,
             searchDate: moment(new Date()),
@@ -41,15 +41,34 @@ module.exports = function (injectedStore) {
         return await saveSearchHistory(result);
     }
 
-    async function saveSearchHistory(data){
+    async function saveSearchHistory(data) {
         const created = new store(data);
         await created.save();
         return created;
     }
 
+    async function getLastSearchs(user) {
+        const lastSearchs = await store.find({ userId: user }).sort({ searchDate: -1 }).limit(5)
+            .populate('artists')
+            .populate('tracks')
+            .populate('playlists');
+        return lastSearchs || [];
+    }
+
+    async function getTopSearches() {
+        const topSearchs = await store.aggregate([
+            { $group: { _id: { $toLower: '$usedFilter' }, busquedas: { $sum: 1 }, results: { $push: '$$ROOT' } } },
+            { $sort: { busquedas: -1 } },
+            { $limit: 5 }
+        ]);
+        return topSearchs;
+    }
+
 
 
     return {
-        search
+        search,
+        getLastSearchs,
+        getTopSearches
     }
 }

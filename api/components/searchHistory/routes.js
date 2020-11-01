@@ -10,7 +10,7 @@ function searchHistoryRoutes(app, store) {
     const SearchHistoryService = searchHistoryService(store);
     app.use('/api/search', router);
 
-    router.get('/:filterText',
+    router.get('/filter/:filterText',
         passport.authenticate('jwt', { session: false }),
         scopesValidationHandler(['read:searchHistory']),
         SearchHistoryService.search

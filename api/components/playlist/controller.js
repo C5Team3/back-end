@@ -76,7 +76,7 @@ module.exports = function (injectedStore) {
     }
 
     async function getFavorites(userId) {
-        const userFavs = await store.findOne({ type: FAVORITE_TYPE, subscribers: { userId: userId }}).populate('tracks.trackId');
+        const userFavs = await store.findOne({ type: FAVORITE_TYPE, "subscribers.userId" : userId }).populate('tracks.trackId');
         return userFavs || false;
     }
 

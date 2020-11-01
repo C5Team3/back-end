@@ -47,7 +47,7 @@ function playlistRoutes(app, store) {
         objectIdValidationHandler('playlistId'),
         objectIdValidationHandler('trackId'),
         PlaylistService.deletePlaylistTrack);
-    router.get('/favorites',
+    router.get('/favorites/all',
         passport.authenticate('jwt', { session: false }),
         scopesValidationHandler(['read:playlists']),
         PlaylistService.getFavorites);

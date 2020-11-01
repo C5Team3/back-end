@@ -133,6 +133,7 @@ function playlistService(injectedStore) {
 
     const getFavorites = async (req, res, next) => {
         const user = req.user._doc;
+        console.log('Llego al service de Favoritos');
         try {
             const userFavs = await Controller.getFavorites(user._id);
             if (!userFavs)
@@ -140,7 +141,8 @@ function playlistService(injectedStore) {
                     "msg": "Playlist not found",
                     "param": "PLAYLIST_NOT_FOUND"
                 }], 400);
-            response.success(req, res, userFavs, 200);
+            else
+                response.success(req, res, userFavs, 200);
         } catch (error) {
             next(boom.boomify(error, { statusCode: 500 }));
         }
