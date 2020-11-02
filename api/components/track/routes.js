@@ -6,6 +6,9 @@ const trackService = require('./service');
 
 const scopesValidationHandler = require('../../../utils/middleware/scopesValidationHandler'); 
 const objectIdValidationHandler = require('../../../utils/middleware/objectIdValidationHanlder'); 
+const { SIXTY_MINUTES } = require('../../../utils/time');
+const cacheResponse = require('../../../utils/middleware/cacheResponse');
+
 
 function trackRoutes(app, store){
   const TrackService = trackService(store);
@@ -14,6 +17,7 @@ function trackRoutes(app, store){
   router.get('/',
     passport.authenticate('jwt', { session: false }),
     scopesValidationHandler(['read:track']),
+    cacheResponse(SIXTY_MINUTES),
     TrackService.getTracks
   )
   router.get('/:trackId',

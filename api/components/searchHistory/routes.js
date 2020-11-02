@@ -5,6 +5,8 @@ const passport = require('passport');
 const searchHistoryService = require('./service');
 
 const scopesValidationHandler = require('../../../utils/middleware/scopesValidationHandler');
+const { FIVE_MINUTES, SIXTY_MINUTES } = require('../../../utils/time');
+const cacheResponse = require('../../../utils/middleware/cacheResponse');
 
 function searchHistoryRoutes(app, store) {
     const SearchHistoryService = searchHistoryService(store);
@@ -13,6 +15,7 @@ function searchHistoryRoutes(app, store) {
     router.get('/filter/:filterText',
         passport.authenticate('jwt', { session: false }),
         scopesValidationHandler(['read:searchHistory']),
+        cacheResponse(SIXTY_MINUTES),
         SearchHistoryService.search
     );
 
@@ -25,6 +28,7 @@ function searchHistoryRoutes(app, store) {
     router.get('/topSearched',
         passport.authenticate('jwt', { session: false }),
         scopesValidationHandler(['read:searchHistory']),
+        cacheResponse(FIVE_MINUTES),
         SearchHistoryService.topSearched
     );
 }

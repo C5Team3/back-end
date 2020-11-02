@@ -5,6 +5,8 @@ const passport = require('passport');
 const artistService = require('./service');
 
 const scopesValidationHandler = require('../../../utils/middleware/scopesValidationHandler');
+const { SIXTY_MINUTES } = require('../../../utils/time');
+const cacheResponse = require('../../../utils/middleware/cacheResponse');
 
 // JWT Strategy
 require('../../../utils/auth/strategies/jwt');
@@ -28,6 +30,7 @@ function artistRoutes(app, store) {
     router.get('/',
         passport.authenticate('jwt', { session: false }),
         scopesValidationHandler(['read:artists']),
+        cacheResponse(SIXTY_MINUTES),
         ArtistService.getArtists);
     router.get('/:artistId',
         passport.authenticate('jwt', { session: false }),

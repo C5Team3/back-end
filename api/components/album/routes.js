@@ -6,6 +6,9 @@ const albumService = require('./service');
 
 const scopesValidationHandler = require('../../../utils/middleware/scopesValidationHandler');
 const objectIdValidationHandler = require('../../../utils/middleware/objectIdValidationHanlder');
+const { SIXTY_MINUTES } = require('../../../utils/time');
+const cacheResponse = require('../../../utils/middleware/cacheResponse');
+
 
 function albumRoutes(app, store) {
   const AlbumService = albumService(store);
@@ -14,6 +17,7 @@ function albumRoutes(app, store) {
   router.get('/',
     passport.authenticate('jwt', { session: false }),
     scopesValidationHandler(['read:album']),
+    cacheResponse(SIXTY_MINUTES),
     AlbumService.getAlbums
   )
   router.get('/:albumId',
@@ -43,6 +47,7 @@ function albumRoutes(app, store) {
     passport.authenticate('jwt', { session: false }),
     scopesValidationHandler(['read:album']),
     objectIdValidationHandler('albumId'),
+    cacheResponse(SIXTY_MINUTES),
     AlbumService.getAlbumTracks
   )
 }

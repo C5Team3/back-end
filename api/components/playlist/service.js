@@ -196,6 +196,25 @@ function playlistService(injectedStore) {
         }
     }
 
+    const addFavoritesTrack = async (req, res, next) => {
+        const user = req.user._doc;
+        const { trackId } = req.params;
+        try {
+            const userFav = await Controller.getFavorites(user._id);
+            if (!userFav)
+                response.error(req, res, [{
+                    "msg": "Playlist not found",
+                    "param": "PLAYLIST_NOT_FOUND"
+                }], 400);
+
+            const addedTrack = await Controller.addPlaylistTrack(userFav._id, trackId);
+            
+            response.success(req, res, addedTrack, 200);
+        } catch (error) {
+            next(boom.boomify(error, { statusCode: 500 }));
+        }
+    }
+
     return {
         createPlaylist,
         updatePlaylist,
@@ -208,7 +227,8 @@ function playlistService(injectedStore) {
         getFavorites,
         subscribe,
         unsubscribe,
-        getGeneralTop
+        getGeneralTop,
+        addFavoritesTrack
     }
 }
 
