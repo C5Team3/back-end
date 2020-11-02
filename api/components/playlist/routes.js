@@ -5,7 +5,7 @@ const passport = require('passport');
 const playlistService = require('./service');
 
 const scopesValidationHandler = require('../../../utils/middleware/scopesValidationHandler');
-const objectIdValidationHandler = require('../../../utils/middleware/objectIdValidationHanlder'); 
+const objectIdValidationHandler = require('../../../utils/middleware/objectIdValidationHanlder');
 
 // JWT Strategy
 require('../../../utils/auth/strategies/jwt');
@@ -61,6 +61,10 @@ function playlistRoutes(app, store) {
         scopesValidationHandler(['read:playlists']),
         objectIdValidationHandler('playlistId'),
         PlaylistService.unsubscribe);
+    router.get('/general/top20',
+        passport.authenticate('jwt', { session: false }),
+        scopesValidationHandler(['read:playlists']),
+        PlaylistService.getGeneralTop);
 }
 
 module.exports = playlistRoutes;

@@ -1,7 +1,7 @@
 module.exports = function (injectedStore) {
   let store = injectedStore;
   const PAGE_SIZE = 20;
-  
+
   async function createTrack(data) {
     const created = new store(data);
     await created.save();
@@ -45,6 +45,15 @@ module.exports = function (injectedStore) {
     return tracks || [];
   }
 
+  async function getFilterTracks(query) {
+    try {
+      const tracks = await store.find(query);
+      return tracks || [];
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
 
   return {
     createTrack,
@@ -52,6 +61,7 @@ module.exports = function (injectedStore) {
     deleteTrack,
     getTrack,
     getTracks,
-    searchTracks
+    searchTracks,
+    getFilterTracks
   }
 }

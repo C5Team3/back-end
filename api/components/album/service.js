@@ -88,13 +88,31 @@ function albumService(injectedStore) {
         }
     }
 
+    const getAlbumTracks = async (req, res, next) => {
+        const { params } = req;
+        try {
+            const album = await Controller.getAlbumTracks({_id:params.albumId});
+            if (album) {
+                response.success(req, res, album, 200);
+            } else {
+                response.error(req, res, [{
+                    "msg": "Album not found",
+                    "param": "ALBUM_NOT_FOUND"
+                }], 400);
+            }
+        } catch (error) {
+            next(error);
+        }
+    }
+
     return {
         createAlbum,
         updateAlbum,
         deleteAlbum,
         getAlbums,
         getAlbum,
-        getOrCreateAlbum
+        getOrCreateAlbum,
+        getAlbumTracks
     }
 }
 

@@ -19,6 +19,7 @@ const ArtistController = require('../api/components/artist/controller');
 
 const SpotPlaylist = require('../models/spotPlaylists');
 const SpotPlaylistController = require('../api/components/spotPlaylist/controller');
+const playlists = require('../models/playlists');
 
 
 async function getDsData() {
@@ -38,29 +39,44 @@ async function processPlaylist(playlist, index) {
         const userController = UserController(User);
         const playlistController = PlaylistController(Playlist);
 
-        //find user by id, if no exists skip the playlist
-        let user = await userController.getUserByEmail(playlist.user_id);
-        if (!user) {
-            console.log(`User ${playlist.user_id} not found`);
-            return false;
+        let user;
+        let suggestedPlaylist;
+        if (playlist.type === 'user-playlist') {
+            //find user by id, if no exists skip the playlist
+            user = await userController.getUserByEmail(playlist.user_id);
+            if (!user) {
+                console.log(`User ${playlist.user_id} not found`);
+                return false;
+            }
+            suggestedPlaylist = {
+                type: "SUGGESTED",
+                name: `Your Suggested Playlist ${index + 1}`
+            };
+        }else {
+            suggestedPlaylist = {
+                type: "GENERAL",
+                name: `Your Suggested Top Playlist`
+            };
         }
-        let suggestedPlaylist = {
-            type: "SUGGESTED",
-            name: `Your Suggested Playlist ${index + 1}`
-        };
 
         const createdPlaylist = await playlistController.createPlaylist(suggestedPlaylist);
-        let subscribedList = await playlistController.subscribe(createdPlaylist._id, user._id);
-        
+        if(user && playlist.type === 'user-playlist'){
+            console.log('entro al subscribe', playlist.type);
+            let subscribedList = await playlistController.subscribe(createdPlaylist._id, user._id);
+            console.log(`Usuario ${user.email} subscrito a la lista ${subscribedList._id}`);
+        }
+
         //process sugested tracks
-        let process =  playlist.tracks.map(async (spotTrack) => {
+        let process = playlist.tracks.map(async (spotTrack) => {
             let trackId = await processTrack(spotTrack);
             await playlistController.addPlaylistTrack(createdPlaylist._id, trackId);
         });
-
+        
         await Promise.all(process);
 
-        console.log(`Usuario ${user.email} subscrito a la lista ${subscribedList._id}`);
+        playlist.processed = true;
+        await playlist.save();
+
     } catch (err) {
         console.log(err);
     }

@@ -7,14 +7,14 @@ const playlistTrackSchema = new Schema({
 var playlistTracks = model('PlaylistTrack', playlistTrackSchema);
 
 const playListSubscribersSchema = new Schema({
-    userId: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
+    userId: { type: Schema.Types.ObjectId, ref: 'Users' },
     subscribedDate: { type: Date }
 });
 var subscribers = model('PlaylistSubscribers', playListSubscribersSchema);
 
 const playlistSchema = new Schema({
     name: { type: String, required: [true, 'Playlist Name is required'], trim: true },
-    type: { type: String, required: [true, 'Playlist type is required'], default: 'GENERAL' },
+    type: { type: String, required: [true, 'Playlist type is required'], default: 'USER' },
     tracks: [ playlistTrackSchema ],
     subscribers: [ playListSubscribersSchema ]
 }, { timestamps: true });

@@ -9,7 +9,8 @@ module.exports = function (injectedStore) {
     async function createPlaylist(data, user) {
         const createdPlaylist = new store(data);
         await createdPlaylist.save();
-        const subscribed = await subscribe(createdPlaylist._id, user);
+        if (user)
+            await subscribe(createdPlaylist._id, user);
         return createdPlaylist;
     }
 
@@ -22,19 +23,19 @@ module.exports = function (injectedStore) {
     }
 
     async function deletePlaylist(playlistId) {
-        const deletedPlaylist = await store.findOneAndRemove({ _id: playlistId, type: GENERAL_TYPE }, {
+        const deletedPlaylist = await store.findOneAndRemove({ _id: playlistId }, {
             select: '_id'
         });
         return deletedPlaylist;
     }
 
     async function getPlaylists(userId) {
-        const Playlists = await store.find({ "subscribers.userId" : userId }).populate('tracks.trackId');
+        const Playlists = await store.find({ "subscribers.userId": userId }).populate('tracks.trackId');
         return Playlists || [];
     }
 
     async function getPlaylist(playlistId, userId) {
-        const Playlist = await store.findOne({ _id: playlistId, "subscribers.userId" : userId }).populate('tracks.trackId');
+        const Playlist = await store.findOne({ _id: playlistId, "subscribers.userId": userId }).populate('tracks.trackId');
         return Playlist || false;
     }
 
@@ -57,8 +58,8 @@ module.exports = function (injectedStore) {
     }
 
     async function createFavPlaylist(user) {
-        const playlistExists = await store.findOne({ type: FAVORITE_TYPE, subscribers: { userId: user._id }});
-        if(playlistExists)
+        const playlistExists = await store.findOne({ type: FAVORITE_TYPE, subscribers: { userId: user._id } });
+        if (playlistExists)
             return playlistExists;
 
         const favPlaylist = {
@@ -76,11 +77,11 @@ module.exports = function (injectedStore) {
     }
 
     async function getFavorites(userId) {
-        const userFavs = await store.findOne({ type: FAVORITE_TYPE, "subscribers.userId" : userId }).populate('tracks.trackId');
+        const userFavs = await store.findOne({ type: FAVORITE_TYPE, "subscribers.userId": userId }).populate('tracks.trackId');
         return userFavs || false;
     }
 
-    async function subscribe(playlistId, userId){
+    async function subscribe(playlistId, userId) {
         const playlist = await store.findOne({ _id: playlistId });
         const playlistSubscriber = {
             userId: userId,
@@ -92,7 +93,7 @@ module.exports = function (injectedStore) {
     }
 
     async function unsubscribe(playlistId, userId) {
-        const playlist = await store.findOneAndUpdate({ _id: playlistId }, { $pull: { subscribers: { userId: userId } }});
+        const playlist = await store.findOneAndUpdate({ _id: playlistId }, { $pull: { subscribers: { userId: userId } } });
         return playlist;
     }
 
@@ -103,6 +104,11 @@ module.exports = function (injectedStore) {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    async function getGeneralTop() {
+        const generalTop = await store.find({ type: GENERAL_TYPE }).populate('tracks.trackId');
+        return generalTop || [];
     }
 
     return {
@@ -117,6 +123,7 @@ module.exports = function (injectedStore) {
         getFavorites,
         subscribe,
         unsubscribe,
-        searchPlaylists
+        searchPlaylists,
+        getGeneralTop
     }
 }

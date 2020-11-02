@@ -4,12 +4,12 @@ const passport = require('passport');
 
 const albumService = require('./service');
 
-const scopesValidationHandler = require('../../../utils/middleware/scopesValidationHandler'); 
-const objectIdValidationHandler = require('../../../utils/middleware/objectIdValidationHanlder'); 
+const scopesValidationHandler = require('../../../utils/middleware/scopesValidationHandler');
+const objectIdValidationHandler = require('../../../utils/middleware/objectIdValidationHanlder');
 
-function albumRoutes(app, store){
+function albumRoutes(app, store) {
   const AlbumService = albumService(store);
-  app.use('/api/album',router);
+  app.use('/api/album', router);
 
   router.get('/',
     passport.authenticate('jwt', { session: false }),
@@ -22,22 +22,28 @@ function albumRoutes(app, store){
     objectIdValidationHandler('albumId'),
     AlbumService.getAlbum
   )
-  router.post('/', 
+  router.post('/',
     passport.authenticate('jwt', { session: false }),
     scopesValidationHandler(['create:album']),
     AlbumService.createAlbum
   );
-  router.put('/:albumId', 
+  router.put('/:albumId',
     passport.authenticate('jwt', { session: false }),
     scopesValidationHandler(['update:album']),
     objectIdValidationHandler('albumId'),
     AlbumService.updateAlbum
   );
-  router.delete('/:albumId', 
+  router.delete('/:albumId',
     passport.authenticate('jwt', { session: false }),
     scopesValidationHandler(['delete:album']),
     objectIdValidationHandler('albumId'),
     AlbumService.deleteAlbum
   );
+  router.get('/:albumId/tracks',
+    passport.authenticate('jwt', { session: false }),
+    scopesValidationHandler(['read:album']),
+    objectIdValidationHandler('albumId'),
+    AlbumService.getAlbumTracks
+  )
 }
 module.exports = albumRoutes;

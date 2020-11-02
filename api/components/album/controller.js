@@ -1,3 +1,6 @@
+const trackController = require('../track/controller');
+const Track = require('../../../models/tracks');
+const { response } = require('express');
 module.exports = function (injectedStore) {
   let store = injectedStore;
   const PAGE_SIZE = 20;
@@ -41,11 +44,18 @@ module.exports = function (injectedStore) {
     return album || false;
   }
 
+  async function getAlbumTracks(albumId){
+    TrackController = trackController(Track);
+    const albumTracks = await TrackController.getFilterTracks({ album_Id: albumId});
+    return albumTracks;
+  }
+
   return {
     createAlbum,
     updateAlbum,
     deleteAlbum,
     getAlbum,
-    getAlbums
+    getAlbums,
+    getAlbumTracks
   }
 }

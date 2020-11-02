@@ -133,7 +133,6 @@ function playlistService(injectedStore) {
 
     const getFavorites = async (req, res, next) => {
         const user = req.user._doc;
-        console.log('Llego al service de Favoritos');
         try {
             const userFavs = await Controller.getFavorites(user._id);
             if (!userFavs)
@@ -182,6 +181,21 @@ function playlistService(injectedStore) {
         }
     }
 
+    const getGeneralTop = async (req, res, next) => {
+        try {
+            const generalTop = await Controller.getGeneralTop();
+            if (!generalTop)
+                response.error(req, res, [{
+                    "msg": "Playlist not found",
+                    "param": "PLAYLIST_NOT_FOUND"
+                }], 400);
+            else
+                response.success(req, res, generalTop, 200);
+        } catch (error) {
+            next(boom.boomify(error, { statusCode: 500 }));
+        }
+    }
+
     return {
         createPlaylist,
         updatePlaylist,
@@ -193,7 +207,8 @@ function playlistService(injectedStore) {
         createFavPlaylist,
         getFavorites,
         subscribe,
-        unsubscribe
+        unsubscribe,
+        getGeneralTop
     }
 }
 
