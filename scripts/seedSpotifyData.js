@@ -117,11 +117,17 @@ const { name, duration_ms, preview_url, id} = spotifyTrack;
 
 async function seedSpotifyPlayList() {
   try {
-
-    // const MONGO_URI_OVERRIDE =`mongodb://127.0.0.1:27017/music_app_test`;
-    // db.connect(MONGO_URI_OVERRIDE);
   
-    db.connect();
+    if(config.db_test_mode=="true"){
+      const db_test = config.db_local_test_url;
+      debug(chalk.blue("Changing DB Mode to Testing, Connected to Test DB"));
+      db.connect(db_test);
+    }
+    else{
+      debug(chalk.red("Connected to Production DB"));
+      db.connect();
+    }
+    
     // Get Access token
     const spotifyCredentials = await spotifyApi.clientCredentialsGrant();
     const accessToken = spotifyCredentials.body.access_token;

@@ -31,9 +31,10 @@ function authRoutes(app) {
   /* -------------------------------------------------------------------------- */
 
   router.post('/sign-up', AuthService.signUp);
+  
   // Basic Activation Account
-  router.get(
-    '/activate',
+  
+  router.get('/activate',
     objectIdValidationHandler(),
     AuthService.activateAccount
   );

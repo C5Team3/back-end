@@ -53,7 +53,7 @@ describe('Albums Routes Test -> With [ADMIN] Scope /api/users', function () {
       .expect('Content-Type', /json/)
       .end(function (err, res) {
         if (err) return done(err);
-        res.body.body.should.be.instanceof(Array);
+        res.body.body.should.be.instanceof(Object);
         done();
       });
   });

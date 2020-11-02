@@ -135,52 +135,52 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -204,50 +204,50 @@ function playlistRoutes(app, store) {
     app.use('/api/playlist', router);
 &nbsp;
     router.post('/',
-        //passport.authenticate('jwt', { session: false }),
-        //scopesValidationHandler(['create:playlists']),
+        passport.authenticate('jwt', { session: false }),
+        scopesValidationHandler(['create:playlists']),
         PlaylistService.createPlaylist);
     router.put('/:playlistId',
-        //passport.authenticate('jwt', { session: false }),
-        //scopesValidationHandler(['update:playlists']),
+        passport.authenticate('jwt', { session: false }),
+        scopesValidationHandler(['update:playlists']),
         PlaylistService.updatePlaylist);
     router.delete('/:playlistId',
-        //passport.authenticate('jwt', { session: false }),
-        //scopesValidationHandler(['delete:playlists']),
+        passport.authenticate('jwt', { session: false }),
+        scopesValidationHandler(['delete:playlists']),
         objectIdValidationHandler('playlistId'),
         PlaylistService.deletePlaylist);
     router.get('/',
-        //passport.authenticate('jwt', { session: false }),
-        //scopesValidationHandler(['read:playlists']),
+        passport.authenticate('jwt', { session: false }),
+        scopesValidationHandler(['read:playlists']),
         PlaylistService.getPlaylists);
     router.get('/:playlistId',
-        //passport.authenticate('jwt', { session: false }),
-        //scopesValidationHandler(['read:playlists']),
+        passport.authenticate('jwt', { session: false }),
+        scopesValidationHandler(['read:playlists']),
         objectIdValidationHandler('playlistId'),
         PlaylistService.getPlaylist);
     router.put('/:playlistId/addTrack',
-        //passport.authenticate('jwt', { session: false }),
-        //scopesValidationHandler(['update:playlists']),
+        passport.authenticate('jwt', { session: false }),
+        scopesValidationHandler(['update:playlists']),
         objectIdValidationHandler('playlistId'),
         PlaylistService.addPlaylistTrack);
     router.put('/:playlistId/deleteTrack/:trackId',
-        //passport.authenticate('jwt', { session: false }),
-        //scopesValidationHandler(['update:playlists']),
+        passport.authenticate('jwt', { session: false }),
+        scopesValidationHandler(['update:playlists']),
         objectIdValidationHandler('playlistId'),
         objectIdValidationHandler('trackId'),
         PlaylistService.deletePlaylistTrack);
-    router.get('/favorites',
-        //passport.authenticate('jwt', { session: false }),
-        //scopesValidationHandler(['read:playlists']),
+    router.get('/favorites/all',
+        passport.authenticate('jwt', { session: false }),
+        scopesValidationHandler(['read:playlists']),
         PlaylistService.getFavorites);
     router.put('/:playlistId/subscribe',
-        //passport.authenticate('jwt', { session: false }),
-        //scopesValidationHandler(['read:playlists']),
+        passport.authenticate('jwt', { session: false }),
+        scopesValidationHandler(['read:playlists']),
         objectIdValidationHandler('playlistId'),
         PlaylistService.subscribe);
     router.put('/:playlistId/unsubscribe',
-        //passport.authenticate('jwt', { session: false }),
-        //scopesValidationHandler(['read:playlists']),
+        passport.authenticate('jwt', { session: false }),
+        scopesValidationHandler(['read:playlists']),
         objectIdValidationHandler('playlistId'),
         PlaylistService.unsubscribe);
 }
@@ -259,7 +259,7 @@ module.exports = playlistRoutes;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sun Nov 01 2020 01:33:05 GMT-0500 (GMT-05:00)
+                at Sun Nov 01 2020 17:12:21 GMT-0500 (GMT-05:00)
             </div>
         </div>
         <script src="../../../prettify.js"></script>
