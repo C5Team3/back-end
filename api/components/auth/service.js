@@ -67,11 +67,12 @@ function authService(userModel, apiKeysModel) {
             next(boom.unauthorized('Invalid Api Key Token'));
           }
           // Compose User Token
-          const { _id, name, email } = user;
+          const { _id, name, email, avatarPath } = user;
           const payload = {
             sub: _id,
             name,
             email,
+            avatarPath,
             scopes: apiKey.scopes,
           };
           const token = jwt.sign(payload, config.auth_jwt_Secret, {

@@ -156,6 +156,7 @@ async function seedSpotifyPlayList() {
     const tracks = recomendations.body.tracks;
 
     const promises = tracks.map(async (track) => {
+      // TODO --> Filter Null URl Tracks
       await processTrack(track);
     });
 
