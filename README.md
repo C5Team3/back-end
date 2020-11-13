@@ -37,9 +37,6 @@ We know how important music tends to be in our lives, Rockker Music App, is a mo
 ## General Documentation
 - [Notion Rcokker Music App](https://www.notion.so/Rokker-cc1801d5d871494caca6dc79bfe4594d/)
 
-## Swagger Api Docs
--[API](https://rokker-music-app-test.herokuapp.com/api-docs/)
-
 ## Aplication Flow
 - [See App Flow](https://coggle.it/diagram/X4mvMZbmeKXduDA1/t/music-app/5997a92adcffae328ac2019846cd2f7eee42adfba31c13fcb5fd2ab92668651d)
 # Backend Architecture 

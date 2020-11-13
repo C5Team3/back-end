@@ -82,15 +82,14 @@ function playlistService(injectedStore) {
     const addPlaylistTrack = async (req, res, next) => {
         const { playlistId } = req.params;
         const { body: data } = req;
+        const user = req.user._doc;
         try {
-            const playlistExist = await Controller.getPlaylist(playlistId);
+            const playlistExist = await Controller.getPlaylist(playlistId, user._id);
             if (!playlistExist)
                 response.error(req, res, [{
                     "msg": "Playlist not found",
                     "param": "PLAYLIST_NOT_FOUND"
                 }], 400);
-
-            console.log('data: ', data);
 
             const addedTrack = await Controller.addPlaylistTrack(playlistId, data.trackId);
             
