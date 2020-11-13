@@ -50,12 +50,12 @@ async function processPlaylist(playlist, index) {
             }
             suggestedPlaylist = {
                 type: "SUGGESTED",
-                name: `Your Suggested Playlist ${index + 1}`
+                name: playlist.title
             };
         }else {
             suggestedPlaylist = {
                 type: "GENERAL",
-                name: `Your Suggested Top Playlist`
+                name: playlist.title
             };
         }
 

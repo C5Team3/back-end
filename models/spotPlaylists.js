@@ -20,6 +20,7 @@ var spotTracks = model('spotTracks', spotTracksSchema);
 const spotPlaylist = new Schema({
     user_id: { type: String },
     type: { type: String },
+    title: { type: String },
     date: { type: Date },
     tracks: [ spotTracksSchema ],
     processed: { type: Boolean, default: false }
