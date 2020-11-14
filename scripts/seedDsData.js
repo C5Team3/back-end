@@ -124,7 +124,11 @@ async function processTrack(spotTrack) {
         genres: spotTrack.genre,
         album_id: album._id,
         artist_id: artist._id,
-        url: spotTrack.preview_url
+        url: spotTrack.preview_url,
+        album_Image: spotTrack.album_img,
+        album_Name: spotTrack.album_name,
+        artist_Name: spotTrack.artist_name,
+        artist_Image: spotTrack.artist_img
     });
 
     return track._id;
