@@ -25,7 +25,7 @@ module.exports = function (injectedStore) {
 
   async function getTracks(page = 1) {
     const skip = (page - 1) * PAGE_SIZE;
-    const tracks = await store.find().skip(skip).limit(PAGE_SIZE).populate('artist_Id', 'name cover_img');
+    const tracks = await store.find().skip(skip).limit(PAGE_SIZE);
     const count = await store.countDocuments();
     const paginatedResponse = {
       totalPages: Math.ceil(count / PAGE_SIZE),
@@ -36,25 +36,19 @@ module.exports = function (injectedStore) {
   }
 
   async function getTrack(queryTrack) {
-    const track = await store.findOne(queryTrack).populate('artist_Id', 'name cover_img');
+    const track = await store.findOne(queryTrack);
     return track || false;
   }
 
   async function searchTracks(filter) {
-    const tracks = await store.find({ title: { $regex: filter, $options: 'i' } }).populate('artist_Id', 'name cover_img');
+    const tracks = await store.find({ title: { $regex: filter, $options: 'i' } });
     return tracks || [];
   }
 
   async function getFilterTracks(query) {
     try {
-      const tracks = await store.find(query).populate('artist_Id', 'name cover_img');
+      const tracks = await store.find(query);
       return tracks || [];
-      // const topSearchs = await store.aggregate([
-      //   { $group: { _id: { album_Id : '$album_Id'}, busquedas: { $sum: 1 }, results: { $push: '$$ROOT' } } },
-      //   { $sort: { busquedas: -1 } },
-      //   { $limit: 5 }
-      // ]);
-      return topSearchs;
     } catch (err) {
       console.log(err);
     }
