@@ -90,9 +90,19 @@ function trackService(injectedStore) {
         try {
             const albumId = req.params.albumId;
             const tracks = await Controller.getFilterTracks({album_Id: albumId});
-            response.success(req, res, tracks, 200);
+            let tracksResponse = [{
+                album_Id: albumId,
+                tracks: []
+            }];
+            tracks.map((item) => {
+                let track = {};
+                track.trackId = item;
+                tracksResponse[0].tracks.push(track);
+            });
+            console.log(tracksResponse);
+            response.success(req, res, tracksResponse, 200);
         } catch (error) {
-            next(error);
+            next(boom.boomify(error, { statusCode: 400 })); 
         }
     }
 
