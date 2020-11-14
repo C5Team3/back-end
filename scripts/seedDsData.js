@@ -68,8 +68,10 @@ async function processPlaylist(playlist, index) {
 
         //process sugested tracks
         let process = playlist.tracks.map(async (spotTrack) => {
-            let trackId = await processTrack(spotTrack);
-            await playlistController.addPlaylistTrack(createdPlaylist._id, trackId);
+            if(spotTrack.preview_url){
+                let trackId = await processTrack(spotTrack);
+                await playlistController.addPlaylistTrack(createdPlaylist._id, trackId);
+            }
         });
         
         await Promise.all(process);
