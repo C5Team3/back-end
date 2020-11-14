@@ -26,6 +26,12 @@ function trackRoutes(app, store){
     objectIdValidationHandler('trackId'),
     TrackService.getTrack
   )
+  router.get('/album/:albumId',
+    passport.authenticate('jwt', { session: false }),
+    scopesValidationHandler(['read:track']),
+    objectIdValidationHandler('albumId'),
+    TrackService.getTracksByAlbum
+  )
   router.post('/', 
     passport.authenticate('jwt', { session: false }),
     scopesValidationHandler(['create:track']),

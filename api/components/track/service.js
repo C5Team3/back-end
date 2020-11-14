@@ -12,7 +12,7 @@ function trackService(injectedStore) {
             const tracks = await Controller.getTracks(page);
             response.success(req, res, tracks, 200);
         } catch (error) {
-            next(error);
+            next(boom.boomify(error, { statusCode: 400 }));
         }
     }
 
@@ -86,11 +86,22 @@ function trackService(injectedStore) {
         }
     }
 
+    const getTracksByAlbum = async (req, res, next) => {
+        try {
+            const albumId = req.params.albumId;
+            const tracks = await Controller.getFilterTracks({album_Id: albumId});
+            response.success(req, res, tracks, 200);
+        } catch (error) {
+            next(error);
+        }
+    }
+
     return {
         createTrack,
         updateTrack,
         deleteTrack,
         getTracks,
+        getTracksByAlbum,
         getTrack,
         getOrCreateTrack
     }
