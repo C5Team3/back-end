@@ -102,8 +102,14 @@ const { name, duration_ms, preview_url, id} = spotifyTrack;
 		spotifyId: id,
 		genres:artist.body.genres,
     album_Id: findAlbum._id,
-		artist_Id: findArtist._id,
+    album_Image:spotifyTrack.album.images[0].url,
+    album_Name:spotifyTrack.album.name,
+    artist_Id: findArtist._id,
+    artist_Name: findArtist.name,
+    artist_Image:artist.body.images[0].url,
   };
+
+
   let findTrack = await trackController.getTrack({spotifyId: spotifyTrack.id});
 	
   if (!findTrack) {
@@ -141,7 +147,7 @@ async function seedSpotifyPlayList() {
 
     const result = await spotifyApi.getAvailableGenreSeeds();
 		const randomSeed = await randomSeedGenres(result.body.genres);
-		console.log("Seed PlayList:"+randomSeed);
+		// console.log("Seed PlayList:"+randomSeed);
 				
 		
     /* -------------------------------------------------------------------------- */
@@ -150,14 +156,18 @@ async function seedSpotifyPlayList() {
 
     const recomendations = await spotifyApi.getRecommendations({
       min_energy: 0.4,
-      seed_genres: [randomSeed],
+      // seed_genres: [randomSeed],
+      seed_genres: ['pop'],
       min_popularity: 50,
     });
     const tracks = recomendations.body.tracks;
 
     const promises = tracks.map(async (track) => {
       // TODO --> Filter Null URl Tracks
-      await processTrack(track);
+      if(track.preview_url){
+        // console.log(track);
+        await processTrack(track);
+      }      
     });
 
     /* -------------------------------------------------------------------------- */
